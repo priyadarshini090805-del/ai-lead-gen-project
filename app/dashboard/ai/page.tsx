@@ -52,6 +52,14 @@ function AIPage() {
   const [result, setResult] = useState<GenerationResult | null>(null)
   const [usage, setUsage] = useState<Usage | null>(null)
   const [history, setHistory] = useState<HistoryItem[]>([])
+  const [aiConfigured, setAiConfigured] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    fetch('/api/ai/status', { credentials: 'same-origin' })
+      .then((r) => r.json())
+      .then((d) => setAiConfigured(!!d.configured))
+      .catch(() => setAiConfigured(null))
+  }, [])
 
   const [formData, setFormData] = useState<GenerationRequest>({
     leadId: leadId || '',
@@ -173,6 +181,13 @@ function AIPage() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {aiConfigured === false && (
+          <div className="mb-6 rounded-md border border-neutral-300 bg-neutral-100 px-4 py-3 text-sm text-neutral-700">
+            <strong>AI provider not configured.</strong> Messages are generated from
+            built-in templates, not a live model. Set <code>OPENROUTER_API_KEY</code> to
+            enable real AI generation.
+          </div>
+        )}
         <div className="grid grid-cols-3 gap-8">
           {/* Form */}
           <div className="col-span-2">

@@ -56,6 +56,7 @@ export default function SchedulePostModal({ onClose, onScheduled }: Props) {
           content,
           imageUrl: imageUrl || undefined,
           scheduledFor: new Date(scheduledFor).toISOString(),
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           title: topic || content.slice(0, 60),
         }),
       });

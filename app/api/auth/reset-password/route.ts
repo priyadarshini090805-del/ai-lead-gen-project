@@ -1,13 +1,20 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { resetPasswordSchema } from '@/lib/validations/auth'
-import { validationErrorResponse, successResponse, unauthorizedResponse, internalErrorResponse } from '@/lib/api-response'
+import { validationErrorResponse, successResponse, unauthorizedResponse, internalErrorResponse, tooManyRequestsResponse } from '@/lib/api-response'
 import { hashPassword } from '@/lib/auth/crypto'
 import { createAuditLog, AuditAction } from '@/lib/security/audit'
+import { enforceRequestRateLimit } from '@/lib/security/rate-limit'
 import { ZodError } from 'zod'
 
 export async function POST(request: NextRequest) {
   try {
+    // DB-backed, serverless-safe: max 10 reset attempts/min per IP.
+    const rl = await enforceRequestRateLimit(request, 'auth:reset', 10, 60_000)
+    if (!rl.allowed) {
+      return tooManyRequestsResponse('Too many attempts. Please try again later.')
+    }
+
     const body = await request.json()
 
     // Validate input

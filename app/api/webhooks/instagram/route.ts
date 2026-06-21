@@ -20,12 +20,16 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get('x-hub-signature-256');
     const body = await request.text();
 
-    if (process.env.INSTAGRAM_CLIENT_SECRET && signature) {
+    if (process.env.INSTAGRAM_CLIENT_SECRET) {
       const expected = 'sha256=' + crypto
         .createHmac('sha256', process.env.INSTAGRAM_CLIENT_SECRET)
         .update(body)
         .digest('hex');
-      if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))) {
+      const sigBuf = Buffer.from(signature || '');
+      const expBuf = Buffer.from(expected);
+      // timingSafeEqual throws if buffers differ in length — guard first so a
+      // bad/missing signature returns 401 instead of crashing with a 500.
+      if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
         return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
       }
     }

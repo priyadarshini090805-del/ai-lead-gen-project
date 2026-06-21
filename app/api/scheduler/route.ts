@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   try {
     const payload = await verifyAuth(request);
     const body = await request.json();
-    const { title, content, platform, scheduledFor, contentId, imageUrl } = body;
+    const { title, content, platform, scheduledFor, contentId, imageUrl, timezone } = body;
 
     if (!platform || !scheduledFor || (!content && !contentId)) {
       return errorResponse('platform, scheduledFor and content (or contentId) are required', 400);
@@ -69,6 +69,9 @@ export async function POST(request: NextRequest) {
         contentId: contentId || null,
         platform: platform.toLowerCase(),
         scheduledFor: when,
+        // scheduledFor is an absolute instant (UTC); store the author's
+        // timezone so the UI can render the local wall-clock time correctly.
+        timezone: typeof timezone === 'string' && timezone ? timezone : 'UTC',
         status: 'SCHEDULED',
         title: postTitle || postBody.slice(0, 80),
         body: isInstagram ? JSON.stringify({ caption: postBody, imageUrl }) : postBody,

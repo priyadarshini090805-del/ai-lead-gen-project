@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/email';
 import { ConversationService } from '@/lib/services/conversation.service';
+import { fromJsonField } from '@/lib/json-field';
 
 const MAX_ATTEMPTS = 3;
 const RETRY_DELAY_MS = 5 * 60 * 1000;
@@ -139,7 +140,7 @@ async function markCampaignLeadFailed(platform: string, payload: string | null, 
 
 /** Substitute {{firstName}} / {{lastName}} / {{company}} placeholders. */
 function resolveMessage(jobMessage: string | undefined, campaign: any, lead: any): string {
-  const settings = (campaign.settings as any) || {};
+  const settings = fromJsonField<Record<string, any>>(campaign.settings) || {};
   const tpl =
     jobMessage ||
     settings.messageTemplate ||

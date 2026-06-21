@@ -1,6 +1,6 @@
 import { AIService } from './service'
 import { getPrompt, messageTypes, tones, lengths } from './prompts'
-import { AIMessageType, MessageTone, MessageLength } from '@prisma/client'
+import { AIMessageType, MessageTone, MessageLength } from '@/lib/enums'
 
 describe('AIService', () => {
   let aiService: AIService

@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { queue } from '@/lib/queue';
+import { toJsonField } from '@/lib/json-field';
 
 export class SchedulerService {
   static async scheduleContent(
@@ -22,7 +23,7 @@ export class SchedulerService {
         status: 'SCHEDULED',
         title: (additionalData?.title as string) || content?.title || 'Scheduled post',
         body: (additionalData?.body as string) || content?.body || '',
-        metadata: additionalData || {},
+        metadata: toJsonField(additionalData || {}),
       },
     });
 

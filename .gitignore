@@ -48,3 +48,8 @@ prisma/.env*
 logs/
 *.log
 .vercel
+
+# Local SQLite demo DB
+prisma/dev.db
+prisma/dev.db-journal
+*.db

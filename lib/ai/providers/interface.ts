@@ -1,4 +1,4 @@
-import { AIMessageType, MessageTone, MessageLength } from '@prisma/client'
+import { AIMessageType, MessageTone, MessageLength } from '@/lib/enums'
 
 export interface AIProviderResponse {
   success: boolean

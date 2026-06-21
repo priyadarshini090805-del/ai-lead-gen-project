@@ -1,4 +1,4 @@
-import { AIMessageType, MessageTone } from '@prisma/client'
+import { AIMessageType, MessageTone } from '@/lib/enums'
 
 export function getPrompt(messageType: AIMessageType, tone: MessageTone): string {
   const basePrompt = `You are an expert sales consultant helping to write highly personalized outreach messages. Your messages are professional, specific, and genuinely valuable to the recipient. You always personalize based on the lead's company, role, and pain points.`

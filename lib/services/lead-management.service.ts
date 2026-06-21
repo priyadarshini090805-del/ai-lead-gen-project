@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import type { LeadStatus } from '@prisma/client';
+import type { LeadStatus } from '@/lib/enums';
 
 /**
  * Lead management aligned to schema:

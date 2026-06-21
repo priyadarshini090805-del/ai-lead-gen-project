@@ -1,4 +1,4 @@
-import type { UserRole } from '@prisma/client';
+import type { UserRole } from '@/lib/enums';
 
 /** Emails listed in ADMIN_EMAILS (comma-separated) are granted ADMIN on signup/login. */
 export function resolveRole(email: string | null | undefined): UserRole {

@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { AIMessageType, MessageTone, MessageLength } from '@prisma/client';
+import { AIMessageType, MessageTone, MessageLength } from '@/lib/enums';
 import { OpenRouterProvider } from './providers/openrouter';
 import { GenerateMessageInput } from './providers/interface';
 

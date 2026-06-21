@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { queue } from '@/lib/queue';
+import { toJsonField, fromJsonField } from '@/lib/json-field';
 
 /** Campaign management aligned to schema: CampaignActivity.action (not Activity.type),
  *  CampaignLead for stats, settings is Json, status uses ACTIVE not RUNNING. */
@@ -71,10 +72,10 @@ export class CampaignManagementService {
   static async updateCampaignSettings(userId: string, campaignId: string, settings: Record<string, any>) {
     const campaign = await prisma.campaign.findFirst({ where: { id: campaignId, userId } });
     if (!campaign) throw new Error('Campaign not found');
-    const current = (campaign.settings as Record<string, any> | null) || {};
+    const current = fromJsonField<Record<string, any>>(campaign.settings) || {};
     return prisma.campaign.update({
       where: { id: campaignId },
-      data: { settings: { ...current, ...settings } },
+      data: { settings: toJsonField({ ...current, ...settings }) },
     });
   }
 

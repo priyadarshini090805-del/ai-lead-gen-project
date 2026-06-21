@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { toJsonField } from '@/lib/json-field';
 
 export interface CreateNotificationInput {
   type: string;
@@ -17,7 +18,7 @@ export class NotificationService {
         title: input.title,
         body: input.body,
         link: input.link,
-        metadata: input.metadata,
+        metadata: toJsonField(input.metadata),
       },
     });
   }

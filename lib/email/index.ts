@@ -1,6 +1,18 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazily instantiate the client so a missing/blank API key never throws at
+// import time (which breaks `next build` / serverless cold starts). It only
+// errors when an email is actually sent without a configured key.
+let resendClient: Resend | null = null
+function getResend(): Resend {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is not configured')
+  }
+  if (!resendClient) {
+    resendClient = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resendClient
+}
 
 export interface EmailOptions {
   to: string
@@ -11,7 +23,7 @@ export interface EmailOptions {
 
 export async function sendEmail(options: EmailOptions): Promise<void> {
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: options.from || process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: options.to,
       subject: options.subject,

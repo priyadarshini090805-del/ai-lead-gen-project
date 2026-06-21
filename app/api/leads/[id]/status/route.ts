@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server'
-import { verifyToken } from '@/lib/auth/crypto'
 import { verifyAuth } from '@/lib/auth/verify'
-import { leadService } from '@/lib/services/lead.service'
+import { LeadManagementService } from '@/lib/services/lead-management.service'
 import { successResponse, unauthorizedResponse, internalErrorResponse, notFoundResponse, validationErrorResponse } from '@/lib/api-response'
 import { ZodError } from 'zod'
 import { z } from 'zod'
@@ -15,10 +14,6 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Get token from header
-    const authHeader = request.headers.get('authorization')
-    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null
-
     const decoded = await verifyAuth(request).catch(() => null)
     if (!decoded) {
       return unauthorizedResponse('Invalid token')
@@ -37,11 +32,14 @@ export async function POST(
       throw error
     }
 
-    const lead = await leadService.changeStatus(decoded.id, params.id, validatedData.status, request)
+    // trackActivity advances the lead status AND records LeadStatusHistory
+    // when the status actually changes.
+    await LeadManagementService.trackActivity(decoded.id, params.id, null, validatedData.status)
+    const lead = await LeadManagementService.getLead(decoded.id, params.id)
 
     return successResponse({ lead }, 'Lead status updated successfully')
   } catch (error: any) {
-    if (error.message === 'Lead not found or unauthorized') {
+    if (error.message === 'Lead not found' || error.message === 'Lead not found or unauthorized') {
       return notFoundResponse('Lead not found')
     }
     console.error('Change status error:', error)

@@ -4,9 +4,18 @@ Run the whole app on a laptop with **zero external services** — no Neon, no
 Postgres, no Docker. Uses a local SQLite file database.
 
 ## Prerequisites
-- [Node.js 20+](https://nodejs.org) installed
+- [Node.js 20+](https://nodejs.org) installed (one-time)
 
-## Steps
+## Easiest: one-click launcher
+- **Windows:** double-click **`START-WINDOWS.bat`**
+- **macOS:** double-click **`START-MAC.command`**
+
+It installs everything on first run, sets up the database, starts the app, and
+opens your browser automatically. To stop, close the window. That's it.
+
+> If Node.js isn't installed, the launcher tells you where to get it.
+
+## Or run manually
 
 ```bash
 # 1. Install dependencies

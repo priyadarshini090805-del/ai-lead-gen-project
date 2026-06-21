@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "setup:local": "prisma generate --schema=prisma/schema.sqlite.prisma && prisma db push --schema=prisma/schema.sqlite.prisma --skip-generate && node scripts/seed-local.js",
+    "setup:local": "node scripts/ensure-env.js && prisma generate --schema=prisma/schema.sqlite.prisma && prisma db push --schema=prisma/schema.sqlite.prisma --skip-generate && node scripts/seed-local.js",
     "seed:local": "node scripts/seed-local.js",
     "dev:local": "next dev",
     "build:local": "prisma generate --schema=prisma/schema.sqlite.prisma && next build",

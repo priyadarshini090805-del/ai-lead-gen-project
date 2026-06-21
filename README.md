@@ -1,548 +1,158 @@
-# HaneXes - Enterprise SaaS Authentication System
+# AI Lead Gen — AI-Driven Social Media Lead Generation System
 
-A production-ready authentication and user management system built with Next.js 15, TypeScript, and PostgreSQL.
+A full-stack SaaS platform that captures leads from social/ad channels, enriches and scores them, generates personalized outreach with AI, and runs multi-step campaigns across **LinkedIn**, **Instagram**, and **email** — with built-in scheduling, conversations, and analytics.
 
-## Features
+Built with **Next.js 15 (App Router)**, **TypeScript**, **Prisma + PostgreSQL**, **NextAuth**, and an **OpenRouter**-backed AI layer.
 
-### Authentication
-- **Email/Password Registration & Login** with strong password validation
-- **Google OAuth 2.0** integration with account linking
-- **LinkedIn OAuth 2.0** integration with account linking
-- **JWT-based Authentication** with 15-minute access tokens and 7-day refresh tokens
-- **Secure Session Management** with cookie-based storage and automatic refresh
+🔗 Live: https://hanxes-2.vercel.app
 
-### Security
-- **Password Hashing** with bcrypt (10 salt rounds)
-- **CSRF Protection** with token validation
-- **Rate Limiting** with configurable presets
-- **Input Sanitization** and XSS protection
-- **SQL Injection Prevention** via Prisma ORM
-- **Audit Logging** for all authentication events
-- **Secure Cookies** with httpOnly and SameSite flags
-- **Helmet Security Headers** for HTTP security
+---
 
-### Authorization
-- **Role-Based Access Control (RBAC)** with 5 role levels
-  - SUPER_ADMIN: Full system access
-  - ADMIN: User management and system administration
-  - MANAGER: Lead and team management
-  - SALES: Lead and outreach access
-  - USER: Personal account access only
-- **Permission-based authorization** with granular permission checks
-- **Role hierarchy** with automatic elevation
+## ✨ Features
 
-### User Management
-- User profiles with first/last name, email, and image
-- Password reset with email verification tokens
-- Forgot password functionality
-- Remember me option for extended sessions
-- Session management with device tracking
-- Logout from all devices
+| Module | What it does |
+|--------|--------------|
+| **Auth & Users** | Email/password + Google & LinkedIn OAuth, JWT sessions, refresh tokens, 2FA, CSRF protection, role-based access |
+| **Lead Management** | Create / import (CSV/XLSX) / tag / score leads, activity timeline, status history |
+| **AI Engine** | Generate personalized messages & content via OpenRouter (industry / role / context-aware prompts) with an approval workflow |
+| **Outreach & Workflows** | Visual multi-step workflow builder, execution engine, monitoring |
+| **Campaigns** | Launch and track outreach campaigns with per-campaign analytics & history |
+| **Scheduler & Queue** | Scheduled messages/content, publishing queue, follow-up reminders, notifications |
+| **Content** | AI content creation, versioning, scheduled publishing |
+| **Conversations** | Unified inbox with AI-suggested replies |
+| **Integrations** | LinkedIn, Instagram & Google (Gmail) — OAuth connect, publish, sync, webhooks |
+| **Analytics** | KPIs, funnel, campaign performance, CSV export |
+| **Audit & Security** | Audit logs, rate limiting, data encryption, failed-login tracking |
 
-## Tech Stack
+---
 
-### Frontend
-- **Next.js 15** - React framework with App Router
-- **TypeScript** - Static type safety
-- **Tailwind CSS** - Utility-first styling (black/white/gray only)
-- **React** - UI library
+## 🧱 Tech Stack
 
-### Backend
-- **Next.js API Routes** - Serverless API endpoints
-- **Server Actions** - Next.js server-side functions
-- **Prisma ORM** - Type-safe database access
-- **PostgreSQL (Neon)** - Cloud-hosted database
+- **Frontend:** Next.js 15 (App Router), React 19, Tailwind CSS, lucide-react
+- **Backend:** Next.js API routes (REST), Zod validation
+- **Database:** PostgreSQL (Neon) via Prisma ORM
+- **Auth:** NextAuth v5 + JWT + OAuth 2.0 (Google, LinkedIn)
+- **AI:** OpenRouter (default model: `meta-llama/llama-3.3-70b-instruct`)
+- **Queue/Cache:** Redis (Upstash recommended in production)
+- **Email:** Resend / Nodemailer
+- **Deploy:** Vercel (cron jobs) / Docker
 
-### Authentication
-- **NextAuth.js v5** - Authentication library
-- **JWT (jsonwebtoken)** - Token generation and verification
-- **bcryptjs** - Password hashing
-- **Cookie** - Session storage
+---
 
-### Validation & Security
-- **Zod** - Schema validation
-- **express-rate-limit** - Rate limiting middleware
-- **Helmet** - HTTP security headers
-
-### Testing
-- **Jest** - Testing framework
-- **@testing-library/react** - Component testing utilities
-
-## Project Structure
-
-```
-hanexes-saas/
-├── app/
-│   ├── (auth)/                 # Authentication routes group
-│   │   ├── layout.tsx         # Auth layout wrapper
-│   │   ├── login/page.tsx      # Login page
-│   │   ├── register/page.tsx   # Registration page
-│   │   ├── forgot-password/page.tsx
-│   │   └── reset-password/page.tsx
-│   ├── api/
-│   │   └── auth/
-│   │       ├── register/route.ts     # Registration endpoint
-│   │       ├── login/route.ts        # Login endpoint
-│   │       ├── refresh/route.ts      # Token refresh endpoint
-│   │       ├── logout/route.ts       # Logout endpoint
-│   │       ├── forgot-password/route.ts
-│   │       ├── reset-password/route.ts
-│   │       ├── sessions/route.ts     # Session management
-│   │       └── [...nextauth]/route.ts # NextAuth handler
-│   ├── dashboard/page.tsx      # Protected dashboard
-│   ├── layout.tsx              # Root layout
-│   └── page.tsx                # Home page
-├── lib/
-│   ├── auth/
-│   │   ├── crypto.ts           # Password hashing and JWT
-│   │   └── __tests__/crypto.test.ts
-│   ├── middleware/
-│   │   ├── auth.ts             # Authentication middleware
-│   │   └── rbac.ts             # Role-based access control
-│   ├── security/
-│   │   ├── csrf.ts             # CSRF protection
-│   │   ├── rate-limit.ts       # Rate limiting
-│   │   ├── audit.ts            # Audit logging
-│   │   ├── sanitize.ts         # Input sanitization
-│   │   └── __tests__/sanitize.test.ts
-│   ├── validations/
-│   │   ├── auth.ts             # Zod schemas
-│   │   └── __tests__/auth.test.ts
-│   ├── rbac.ts                 # RBAC system
-│   ├── session.ts              # Session management
-│   ├── api-response.ts         # Standardized responses
-│   ├── auth.ts                 # NextAuth configuration
-│   ├── prisma.ts               # Prisma client
-│   └── __tests__/rbac.test.ts
-├── prisma/
-│   └── schema.prisma           # Database schema
-├── app/globals.css             # Global styles
-├── package.json
-├── tsconfig.json
-├── next.config.js
-├── tailwind.config.ts
-├── postcss.config.js
-├── jest.config.js
-├── jest.setup.js
-├── .env.local                  # Environment variables
-├── .eslintrc.json
-├── .gitignore
-└── README.md
-```
-
-## Installation
+## 🚀 Getting Started (Local)
 
 ### Prerequisites
-- Node.js 18+ 
-- PostgreSQL database (Neon configured)
-- npm or yarn
+- Node.js 20+
+- A PostgreSQL database (e.g. [Neon](https://neon.tech))
+- (Optional) Redis for queue/scheduler features
 
-### Setup Steps
+### Setup
 
-1. **Install Dependencies**
 ```bash
-npm install
-```
+# 1. Install dependencies
+npm install --legacy-peer-deps
 
-2. **Configure Environment Variables**
-```bash
-cp .env.local .env.local
-# Edit .env.local with your credentials
-```
+# 2. Configure environment
+cp .env.example .env.local
+#   then fill in the values (see "Environment Variables" below)
 
-3. **Generate Prisma Client**
-```bash
-npm run prisma:generate
-```
+# 3. Generate Prisma client & push schema
+npx prisma generate
+npx prisma db push
 
-4. **Run Database Migrations**
-```bash
-npm run prisma:migrate
-```
-
-5. **Start Development Server**
-```bash
+# 4. Run the dev server
 npm run dev
 ```
 
-Visit `http://localhost:3000` in your browser.
+App runs at http://localhost:3000
 
-## API Endpoints
+### Useful scripts
 
-### Authentication
-
-**Register User**
-```
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john@example.com",
-  "password": "SecurePass123!",
-  "confirmPassword": "SecurePass123!"
-}
-
-Response:
-{
-  "success": true,
-  "data": {
-    "user": {
-      "id": "user-123",
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "john@example.com",
-      "role": "USER",
-      "createdAt": "2024-01-01T00:00:00Z"
-    }
-  }
-}
-```
-
-**Login**
-```
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "SecurePass123!",
-  "rememberMe": false
-}
-
-Response:
-{
-  "success": true,
-  "data": {
-    "accessToken": "eyJhbGc...",
-    "refreshToken": "eyJhbGc...",
-    "user": {
-      "id": "user-123",
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "john@example.com",
-      "role": "USER"
-    }
-  }
-}
-```
-
-**Refresh Token**
-```
-POST /api/auth/refresh
-Authorization: Bearer <accessToken>
-
-Response:
-{
-  "success": true,
-  "data": {
-    "accessToken": "eyJhbGc...",
-    "refreshToken": "eyJhbGc..."
-  }
-}
-```
-
-**Logout**
-```
-POST /api/auth/logout
-Authorization: Bearer <accessToken>
-
-Response:
-{
-  "success": true,
-  "message": "Logged out successfully"
-}
-```
-
-### Session Management
-
-**Get Sessions**
-```
-GET /api/auth/sessions
-Authorization: Bearer <accessToken>
-
-Response:
-{
-  "success": true,
-  "data": {
-    "activeSessionCount": 2,
-    "sessions": [...],
-    "lastLogin": "2024-01-01T00:00:00Z",
-    "lastLoginIp": "192.168.1.1"
-  }
-}
-```
-
-**Delete Session**
-```
-DELETE /api/auth/sessions
-Authorization: Bearer <accessToken>
-Content-Type: application/json
-
-{
-  "sessionId": "session-123"
-}
-```
-
-**Logout All Devices**
-```
-DELETE /api/auth/sessions
-Authorization: Bearer <accessToken>
-Content-Type: application/json
-
-{
-  "logoutAllDevices": true
-}
-```
-
-## Password Requirements
-
-Passwords must meet these requirements:
-- Minimum 8 characters
-- At least one uppercase letter (A-Z)
-- At least one lowercase letter (a-z)
-- At least one number (0-9)
-- At least one special character (@$!%*?&)
-
-## Security Features
-
-### Password Security
-- Bcrypt hashing with 10 salt rounds
-- Password strength validation with Zod
-- Secure password reset tokens (1-hour expiry)
-- Password history not enforced (can be added)
-
-### Session Security
-- Secure HTTP-only cookies
-- SameSite cookie policy (Lax)
-- Automatic token refresh every 15 minutes
-- Session expiration after 24 hours
-- Remember me option (7 days)
-
-### CSRF Protection
-- CSRF token generation and validation
-- Token rotation on each request
-- Cookie-based token storage
-
-### Rate Limiting
-- Login/Register: 5 requests per 15 minutes
-- API: 100 requests per minute
-- Auth operations: Configurable presets
-
-### Input Validation
-- Zod schema validation
-- Email format validation
-- Password strength requirements
-- Script tag and event handler removal
-- HTML entity escaping
-
-### Audit Logging
-- User login/logout tracking
-- Password change logging
-- Account creation tracking
-- OAuth account linking tracking
-- All logs include IP address and user agent
-
-## Database Schema
-
-### User Table
-- `id` (String, Primary Key)
-- `firstName` (String)
-- `lastName` (String)
-- `email` (String, Unique)
-- `passwordHash` (String, Optional)
-- `role` (Enum: SUPER_ADMIN, ADMIN, MANAGER, SALES, USER)
-- `image` (String, Optional)
-- `isActive` (Boolean)
-- `emailVerified` (DateTime, Optional)
-- `twoFactorEnabled` (Boolean)
-- `twoFactorSecret` (String, Optional)
-- `lastLoginAt` (DateTime, Optional)
-- `lastLoginIp` (String, Optional)
-- `createdAt` (DateTime)
-- `updatedAt` (DateTime)
-
-### Account Table (OAuth)
-- `id` (String, Primary Key)
-- `userId` (String, Foreign Key)
-- `type` (String)
-- `provider` (String)
-- `providerAccountId` (String, Unique with provider)
-- `refreshToken` (String, Optional)
-- `accessToken` (String, Optional)
-- `expiresAt` (Int, Optional)
-- `tokenType` (String, Optional)
-- `scope` (String, Optional)
-- `idToken` (String, Optional)
-- `createdAt` (DateTime)
-- `updatedAt` (DateTime)
-
-### Session Table
-- `id` (String, Primary Key)
-- `sessionToken` (String, Unique)
-- `userId` (String, Foreign Key)
-- `userAgent` (String, Optional)
-- `ipAddress` (String, Optional)
-- `expiresAt` (DateTime)
-- `rememberMe` (Boolean)
-- `createdAt` (DateTime)
-- `updatedAt` (DateTime)
-
-### RefreshToken Table
-- `id` (String, Primary Key)
-- `userId` (String, Foreign Key)
-- `token` (String, Unique)
-- `expiresAt` (DateTime)
-- `revokedAt` (DateTime, Optional)
-- `createdAt` (DateTime)
-
-### VerificationToken Table
-- `id` (String, Primary Key)
-- `userId` (String, Foreign Key)
-- `token` (String, Unique)
-- `type` (String: email-verification, password-reset)
-- `expiresAt` (DateTime)
-- `usedAt` (DateTime, Optional)
-- `createdAt` (DateTime)
-
-### AuditLog Table
-- `id` (String, Primary Key)
-- `userId` (String, Optional, Foreign Key)
-- `action` (Enum)
-- `entityType` (String)
-- `entityId` (String, Optional)
-- `oldValue` (String, Optional)
-- `newValue` (String, Optional)
-- `ipAddress` (String, Optional)
-- `userAgent` (String, Optional)
-- `metadata` (String, Optional)
-- `createdAt` (DateTime)
-
-## Testing
-
-### Run Tests
 ```bash
-npm test
+npm run dev            # start dev server
+npm run build          # prisma generate + production build
+npm run start          # run production build
+npm run lint           # eslint
+npm run test           # jest unit tests
+npm run prisma:studio  # browse the database
 ```
 
-### Run Tests in Watch Mode
+---
+
+## 🔑 Environment Variables
+
+See [`.env.example`](./.env.example) for the full list. Key groups:
+
+| Group | Variables |
+|-------|-----------|
+| Database | `DATABASE_URL`, `DATABASE_DIRECT_URL` |
+| Auth | `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `AUTH_SECRET`, `JWT_SECRET`, `JWT_REFRESH_SECRET`, `CSRF_SECRET` |
+| Google OAuth | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` |
+| LinkedIn OAuth | `LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET` |
+| Instagram | `INSTAGRAM_CLIENT_ID`, `INSTAGRAM_CLIENT_SECRET`, `INSTAGRAM_WEBHOOK_TOKEN` |
+| AI | `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` |
+| Redis | `REDIS_URL` |
+| Email | `RESEND_API_KEY`, `EMAIL_FROM` |
+| Security | `ENCRYPTION_KEY`, `CRON_SECRET` |
+
+---
+
+## ☁️ Deployment (Vercel)
+
+1. Import this repo into Vercel — it auto-detects **Next.js**.
+2. Build command is preset in [`vercel.json`](./vercel.json) → `npm run vercel-build` (runs `prisma generate` + `prisma db push` + `next build`).
+3. Add all environment variables (use **Settings → Environment Variables → Import .env**). Set `NEXTAUTH_URL` and `NEXT_PUBLIC_APP_URL` to your production URL.
+4. **Redis:** use a hosted Redis ([Upstash](https://upstash.com)) for the queue/scheduler/notifications — `localhost` does not work on serverless.
+5. **OAuth:** add `https://<your-domain>/api/auth/callback/google` and `.../callback/linkedin` to the providers' authorized redirect URIs.
+
+Two cron jobs are configured in `vercel.json`:
+- `/api/cron/process-scheduled` — every minute
+- `/api/cron/poll-gmail` — every 10 minutes
+
+Docker is also supported via the included `Dockerfile` / `docker-compose.yml`.
+
+---
+
+## 📁 Project Structure
+
+```
+app/
+  (auth)/            # login, register, forgot/reset password
+  dashboard/         # leads, ai, workflows, scheduler, queue, content,
+                     #   conversations, campaigns, integrations, analytics, audit, settings
+  api/               # REST API routes for every module (+ cron, webhooks)
+components/          # shared UI (DashboardShell, etc.)
+lib/                 # auth, prisma, ai, integrations, queue, security helpers
+prisma/schema.prisma # data models
+middleware.ts        # auth/route protection
+```
+
+See [`API_DOCUMENTATION.md`](./API_DOCUMENTATION.md) for the full API reference.
+
+---
+
+## 📡 API Overview
+
+Representative endpoints (all under `/api`):
+
+- **Auth:** `POST /auth/register`, `POST /auth/login`, `POST /auth/refresh`, `auth/2fa/*`
+- **Leads:** `GET/POST /leads`, `GET/PUT /leads/:id`, `/leads/:id/activities`
+- **AI:** `POST /ai/generate-message`, `/ai/approvals/*`, `/content/generate`
+- **Campaigns:** `GET/POST /campaigns`, `/campaigns/:id/launch`, `/campaigns/:id/analytics`
+- **Integrations:** `/integrations/linkedin/*`, `/integrations/instagram/*`, `/integrations/google/*`
+- **Analytics:** `/analytics/kpi`, `/analytics/funnel`, `/analytics/campaigns`, `/analytics/export`
+
+---
+
+## 🧪 Testing
+
 ```bash
-npm run test:watch
+npm run test          # Jest unit tests
+npm run type-check    # TypeScript check
 ```
 
-### Test Coverage
-```bash
-npm test -- --coverage
-```
+---
 
-### Test Files
-- `lib/auth/__tests__/crypto.test.ts` - Password and JWT tests
-- `lib/validations/__tests__/auth.test.ts` - Schema validation tests
-- `lib/__tests__/rbac.test.ts` - Role-based access control tests
-- `lib/security/__tests__/sanitize.test.ts` - Input sanitization tests
+## 📄 License
 
-## Development
-
-### Type Checking
-```bash
-npm run type-check
-```
-
-### Linting
-```bash
-npm run lint
-```
-
-### Build for Production
-```bash
-npm run build
-```
-
-### Start Production Server
-```bash
-npm start
-```
-
-## Environment Variables
-
-Required environment variables:
-
-```env
-# Database
-DATABASE_URL=postgresql://...
-DATABASE_DIRECT_URL=postgresql://...
-
-# NextAuth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key
-
-# Auth Secrets
-AUTH_SECRET=your-secret-key
-CSRF_SECRET=your-secret-key
-JWT_SECRET=your-secret-key
-
-# Google OAuth
-AUTH_GOOGLE_ID=your-google-client-id
-AUTH_GOOGLE_SECRET=your-google-client-secret
-
-# LinkedIn OAuth
-AUTH_LINKEDIN_ID=your-linkedin-client-id
-AUTH_LINKEDIN_SECRET=your-linkedin-client-secret
-
-# App
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-## Deployment
-
-### Vercel Deployment
-1. Push to GitHub repository
-2. Connect to Vercel
-3. Set environment variables in Vercel dashboard
-4. Deploy
-
-### Docker Deployment
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-## Known Limitations & Future Enhancements
-
-### Current Limitations
-- Email sending not fully implemented (TODO: integrate Resend)
-- Two-factor authentication schema prepared but not implemented
-- Instagram OAuth schema prepared but not implemented
-
-### Planned Enhancements
-- Email verification on signup
-- Two-factor authentication (2FA) with TOTP
-- Instagram OAuth integration
-- Password history and expiration policies
-- Device management and security keys
-- Advanced audit logging with search/filter
-- API key authentication for programmatic access
-
-## Contributing
-
-This is a private project. For contributions, please follow:
-1. TypeScript strict mode
-2. Zod schema validation for all inputs
-3. Comprehensive error handling
-4. Test coverage for new features
-5. Security-first mindset
-
-## License
-
-MIT License - See LICENSE file for details
-
-## Support
-
-For support and questions, contact: support@hanexes.com
+Proprietary — all rights reserved.

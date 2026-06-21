@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { LinkedInService } from '@/lib/services/linkedin.service';
 import { InstagramService } from '@/lib/services/instagram.service';
 import { NotificationService } from '@/lib/services/notification.service';
+import { processOutreachQueue } from '@/lib/jobs/outreach-worker';
 
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
@@ -93,7 +94,19 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.json({ processed: results.length, results, at: now.toISOString() });
+  // Also drain the outreach/follow-up queue on the same cron tick so we stay
+  // within the Hobby plan's cron-job limit.
+  const outreach = await processOutreachQueue().catch((e) => {
+    console.error('Outreach worker error:', e);
+    return [];
+  });
+
+  return NextResponse.json({
+    processed: results.length,
+    results,
+    outreach: { processed: outreach.length, results: outreach },
+    at: now.toISOString(),
+  });
 }
 
 function parseBody(body: string): { caption: string; imageUrl?: string } {

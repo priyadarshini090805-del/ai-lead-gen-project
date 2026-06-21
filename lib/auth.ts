@@ -52,10 +52,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
-        console.log('OAuth SignIn');
-  console.log('User:', user);
-  console.log('Account:', account);
-
       if (account?.provider === 'google' || account?.provider === 'linkedin') {
         if (!user.email) {
           console.error('[auth] OAuth user has no email — denied')

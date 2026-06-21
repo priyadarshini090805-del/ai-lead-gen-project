@@ -72,6 +72,60 @@ export class OpenRouterProvider implements AIProvider {
     }
   }
 
+  /**
+   * Generic chat completion for use cases beyond lead-message generation
+   * (e.g. conversation reply suggestions). Returns the raw assistant text.
+   */
+  async chat(
+    messages: { role: 'system' | 'user' | 'assistant'; content: string }[],
+    opts?: { temperature?: number; maxTokens?: number }
+  ): Promise<AIProviderResponse> {
+    if (!this.isAvailable()) {
+      return { success: false, error: 'OpenRouter API key not configured', tokensUsed: 0 }
+    }
+
+    try {
+      const response = await fetch(OPENROUTER_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`,
+          'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+          'X-Title': 'HaneXes',
+        },
+        body: JSON.stringify({
+          model: MODEL,
+          messages,
+          temperature: opts?.temperature ?? 0.7,
+          max_tokens: opts?.maxTokens ?? 400,
+        }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}))
+        return {
+          success: false,
+          error: `OpenRouter API error: ${error.error?.message || response.statusText}`,
+          tokensUsed: 0,
+        }
+      }
+
+      const data = await response.json()
+      return {
+        success: true,
+        message: data.choices[0]?.message?.content || '',
+        tokensUsed: data.usage?.total_tokens || 0,
+      }
+    } catch (error) {
+      console.error('OpenRouter chat error:', error)
+      return {
+        success: false,
+        error: `OpenRouter request failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        tokensUsed: 0,
+      }
+    }
+  }
+
   estimateTokens(input: GenerateMessageInput): number {
     // Rough estimation
     const prompt = getPrompt(input.messageType, input.tone)

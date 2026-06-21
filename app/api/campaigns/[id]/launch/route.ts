@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth/verify';
+import { requirePermission } from '@/lib/auth/authorize';
 import { successResponse, errorResponse } from '@/lib/response';
 import { CampaignService } from '@/lib/services/campaign.service';
 
@@ -15,8 +16,10 @@ export async function POST(
         { status: 401 }
       );
     }
+    requirePermission(auth, 'outreach:create');
 
-    const result = await CampaignService.launchCampaign(params.id, auth.id);
+    const body = await request.json().catch(() => ({}));
+    const result = await CampaignService.launchCampaign(auth.id, params.id, body?.workflowId);
 
     return NextResponse.json(
       successResponse('Campaign launched successfully', { result })
@@ -25,7 +28,7 @@ export async function POST(
     console.error('POST /api/campaigns/:id/launch error:', error);
     return NextResponse.json(
       errorResponse(error.message),
-      { status: 400 }
+      { status: error.status || 400 }
     );
   }
 }

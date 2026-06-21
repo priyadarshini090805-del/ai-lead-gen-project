@@ -73,10 +73,20 @@ export const PERMISSIONS: Record<UserRole, string[]> = {
     'outreach:update',
     'reports:read',
   ],
+  // In this product each USER owns their own workspace (all data is scoped by
+  // userId), so a USER may fully manage their own leads/outreach/reports.
+  // Admin-only capabilities (users:*, system:*) remain reserved for ADMIN+.
   [UserRole.USER]: [
     'leads:read',
+    'leads:create',
+    'leads:update',
+    'leads:delete',
+    'leads:manage',
     'outreach:read',
+    'outreach:create',
+    'outreach:update',
     'reports:read',
+    'reports:create',
   ],
 }
 

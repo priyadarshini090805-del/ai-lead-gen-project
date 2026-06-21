@@ -43,7 +43,6 @@ Thumbs.db
 
 # Prisma
 prisma/.env*
-prisma/migrations/
 
 # Logs
 logs/

@@ -125,6 +125,21 @@ export interface DbRateLimitResult {
   resetAt: Date
 }
 
+/**
+ * Production-ready, serverless-safe rate limit keyed by client IP + scope.
+ * Backed by the RateLimitCounter table (shared across all serverless
+ * invocations), unlike the in-memory Map limiters which reset per-invocation.
+ */
+export async function enforceRequestRateLimit(
+  request: NextRequest,
+  scope: string,
+  maxRequests: number,
+  windowMs: number
+): Promise<DbRateLimitResult> {
+  const id = getClientIdentifier(request)
+  return enforceRateLimit(`${scope}:${id}`, maxRequests, windowMs)
+}
+
 export async function enforceRateLimit(
   key: string,
   maxRequests: number,

@@ -40,19 +40,33 @@ export class CampaignService {
     await prisma.campaign.delete({ where: { id: campaignId } });
   }
 
-  static async launchCampaign(userId: string, campaignId: string, workflowId: string) {
+  static async launchCampaign(userId: string, campaignId: string, workflowId?: string) {
     const campaign = await prisma.campaign.findUnique({ where: { id: campaignId }, include: { leads: true } });
     if (!campaign || campaign.userId !== userId) throw new Error('Campaign not found');
-    const workflow = await prisma.workflow.findUnique({ where: { id: workflowId } });
-    if (!workflow || workflow.userId !== userId) throw new Error('Workflow not found');
+
+    // workflow is optional — fall back to the campaign's own workflow if set.
+    const wfId = workflowId || campaign.workflowId || undefined;
+    if (wfId) {
+      const workflow = await prisma.workflow.findUnique({ where: { id: wfId } });
+      if (!workflow || workflow.userId !== userId) throw new Error('Workflow not found');
+    }
+
+    if (campaign.leads.length === 0) throw new Error('Campaign has no leads to contact');
 
     const updated = await prisma.campaign.update({
       where: { id: campaignId },
-      data: { status: 'ACTIVE', workflowId, launchedAt: new Date(), startedAt: new Date() },
+      data: { status: 'ACTIVE', workflowId: wfId, launchedAt: new Date(), startedAt: new Date() },
     });
     for (const lead of campaign.leads) {
-      await addOutreachJob({ campaignId, leadId: lead.leadId, workflowId });
+      await addOutreachJob({ campaignId, leadId: lead.leadId, workflowId: wfId });
     }
+    await prisma.campaignActivity.create({
+      data: {
+        campaignId,
+        action: 'status_changed',
+        description: `Campaign launched — ${campaign.leads.length} lead(s) queued for outreach`,
+      },
+    });
     return updated;
   }
 

@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { addOutreachJob, addFollowupJob } from '@/lib/queue';
+import { addOutreachJob } from '@/lib/queue';
 
 export class WorkflowExecutor {
   static async executeWorkflowStep(
@@ -51,7 +51,17 @@ export class WorkflowExecutor {
     leadId: string,
     message: string
   ) {
-    await addOutreachJob(campaignLeadId, leadId, message, 0);
+    // Resolve the campaignId from the campaignLead so we can enqueue a
+    // correctly-shaped OutreachJobData object (the previous 4-positional-arg
+    // call did not match addOutreachJob's signature).
+    const campaignLead = await prisma.campaignLead.findUnique({
+      where: { id: campaignLeadId },
+      select: { campaignId: true },
+    });
+    if (!campaignLead) {
+      throw new Error('CampaignLead not found');
+    }
+    await addOutreachJob({ campaignId: campaignLead.campaignId, leadId, message });
     return { type: 'MESSAGE', executed: true };
   }
 

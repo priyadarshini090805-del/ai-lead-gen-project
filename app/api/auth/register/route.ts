@@ -3,14 +3,21 @@ import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/lib/auth/crypto'
 import { resolveRole } from '@/lib/auth/roles'
 import { registerSchema } from '@/lib/validations/auth'
-import { validationErrorResponse, successResponse, conflictResponse, internalErrorResponse } from '@/lib/api-response'
+import { validationErrorResponse, successResponse, conflictResponse, internalErrorResponse, tooManyRequestsResponse } from '@/lib/api-response'
 import { csrfMiddleware } from '@/lib/security/csrf'
+import { enforceRequestRateLimit } from '@/lib/security/rate-limit'
 import { createAuditLog, AuditAction } from '@/lib/security/audit'
 import { ZodError } from 'zod'
 
 async function handler(request: NextRequest) {
   try {
     // Note: CSRF already validated by csrfMiddleware wrapper — do not call it again here.
+
+    // DB-backed, serverless-safe rate limit: max 5 signups/min per IP.
+    const rl = await enforceRequestRateLimit(request, 'auth:register', 5, 60_000)
+    if (!rl.allowed) {
+      return tooManyRequestsResponse('Too many registration attempts. Please try again later.')
+    }
 
     const body = await request.json()
 

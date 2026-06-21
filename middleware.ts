@@ -1,24 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const rateLimit = new Map<string, { count: number; resetTime: number }>();
-
-function getRateLimit(key: string): { allowed: boolean; remaining: number } {
-  const now = Date.now();
-  const limit = rateLimit.get(key);
-
-  if (!limit || now > limit.resetTime) {
-    rateLimit.set(key, { count: 1, resetTime: now + 60000 });
-    return { allowed: true, remaining: 99 };
-  }
-
-  limit.count++;
-  if (limit.count > 100) {
-    return { allowed: false, remaining: 0 };
-  }
-
-  return { allowed: true, remaining: 100 - limit.count };
-}
+// NOTE: Rate limiting is intentionally NOT done in middleware. This runs on the
+// Edge runtime, where in-memory state resets every serverless invocation (a
+// Map-based limiter is a no-op) and Prisma is unavailable. Abuse-prone routes
+// use the DB-backed limiter (lib/security/rate-limit.ts) at the route level —
+// see /api/auth/register and /api/ai/generate-message. Login is guarded by
+// brute-force protection (lib/security/brute-force.ts).
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
@@ -43,18 +31,6 @@ export function middleware(request: NextRequest) {
     form-action 'self';
   `.replace(/\n/g, '');
   response.headers.set('Content-Security-Policy', csp);
-
-  // Rate Limiting for API routes
-  if (request.nextUrl.pathname.startsWith('/api/')) {
-    const ip = request.ip || 'unknown';
-    const { allowed, remaining } = getRateLimit(ip);
-
-    if (!allowed) {
-      return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
-    }
-
-    response.headers.set('X-RateLimit-Remaining', remaining.toString());
-  }
 
   return response;
 }

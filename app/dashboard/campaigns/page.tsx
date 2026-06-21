@@ -46,11 +46,11 @@ export default function CampaignsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'RUNNING':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'COMPLETED':
-        return 'bg-green-100 text-green-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'PAUSED':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'DRAFT':
         return 'bg-gray-100 text-gray-800';
       default:
@@ -90,8 +90,8 @@ export default function CampaignsPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -142,7 +142,7 @@ export default function CampaignsPage() {
                           e.preventDefault();
                           handleAction(c.id, 'start');
                         }}
-                        className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
+                        className="text-xs px-2 py-1 bg-neutral-100 text-neutral-800 rounded hover:bg-neutral-200"
                       >
                         Start
                       </button>
@@ -154,7 +154,7 @@ export default function CampaignsPage() {
                             e.preventDefault();
                             handleAction(c.id, 'pause');
                           }}
-                          className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded hover:bg-yellow-200"
+                          className="text-xs px-2 py-1 bg-neutral-100 text-neutral-800 rounded hover:bg-neutral-200"
                         >
                           Pause
                         </button>
@@ -163,7 +163,7 @@ export default function CampaignsPage() {
                             e.preventDefault();
                             handleAction(c.id, 'stop');
                           }}
-                          className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded hover:bg-red-200"
+                          className="text-xs px-2 py-1 bg-neutral-100 text-neutral-800 rounded hover:bg-neutral-200"
                         >
                           Stop
                         </button>
@@ -175,7 +175,7 @@ export default function CampaignsPage() {
                           e.preventDefault();
                           handleAction(c.id, 'resume');
                         }}
-                        className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200"
+                        className="text-xs px-2 py-1 bg-neutral-100 text-neutral-800 rounded hover:bg-neutral-200"
                       >
                         Resume
                       </button>
@@ -188,7 +188,7 @@ export default function CampaignsPage() {
         ) : (
           <div className="text-center py-12">
             <p className="text-gray-500 mb-4">No campaigns yet</p>
-            <Link href="/dashboard/campaigns/new" className="text-blue-600 hover:text-blue-800">
+            <Link href="/dashboard/campaigns/new" className="text-neutral-600 hover:text-neutral-800">
               Create your first campaign →
             </Link>
           </div>

@@ -74,8 +74,8 @@ export default function ContentPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -116,10 +116,10 @@ export default function ContentPage() {
                     <td className="px-4 py-3 text-sm text-gray-600">{c.type}</td>
                     <td className="px-4 py-3 text-sm">
                       <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        c.status === 'PUBLISHED' ? 'bg-green-100 text-green-800' :
+                        c.status === 'PUBLISHED' ? 'bg-neutral-100 text-neutral-800' :
                         c.status === 'DRAFT' ? 'bg-gray-100 text-gray-800' :
-                        c.status === 'APPROVED' ? 'bg-blue-100 text-blue-800' :
-                        'bg-red-100 text-red-800'
+                        c.status === 'APPROVED' ? 'bg-neutral-100 text-neutral-800' :
+                        'bg-neutral-100 text-neutral-800'
                       }`}>
                         {c.status}
                       </span>
@@ -128,10 +128,10 @@ export default function ContentPage() {
                       {new Date(c.createdAt).toLocaleDateString()}
                     </td>
                     <td className="text-right px-4 py-3 text-sm space-x-2">
-                      <Link href={`/dashboard/content/editor?id=${c.id}`} className="text-blue-600 hover:text-blue-800">
+                      <Link href={`/dashboard/content/editor?id=${c.id}`} className="text-neutral-600 hover:text-neutral-800">
                         Edit
                       </Link>
-                      <button onClick={() => deleteContent(c.id)} className="text-red-600 hover:text-red-800">
+                      <button onClick={() => deleteContent(c.id)} className="text-neutral-600 hover:text-neutral-800">
                         Delete
                       </button>
                     </td>
@@ -143,7 +143,7 @@ export default function ContentPage() {
         ) : (
           <div className="text-center py-12">
             <p className="text-gray-500 mb-4">No content yet</p>
-            <Link href="/dashboard/content/editor" className="text-blue-600 hover:text-blue-800">
+            <Link href="/dashboard/content/editor" className="text-neutral-600 hover:text-neutral-800">
               Create your first content →
             </Link>
           </div>

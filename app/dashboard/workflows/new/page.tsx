@@ -56,8 +56,8 @@ export default function NewWorkflowPage() {
 
       <div className="max-w-2xl mx-auto px-6 py-12">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -101,7 +101,7 @@ export default function NewWorkflowPage() {
           </div>
         </form>
 
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg border border-blue-200">
+        <div className="mt-12 bg-neutral-50 p-6 rounded-lg border border-neutral-200">
           <h3 className="font-semibold text-black mb-2">What is a Workflow?</h3>
           <p className="text-sm text-gray-700">
             A workflow is a sequence of automated steps that runs on a schedule or in response to events. You can send messages, wait for responses, create conditional branches, and more.

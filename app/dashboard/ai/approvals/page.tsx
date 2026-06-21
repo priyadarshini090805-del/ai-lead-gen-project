@@ -78,10 +78,10 @@ export default function ApprovalsPage() {
   }
 
   const statusColors: Record<string, string> = {
-    PENDING: 'bg-yellow-100 text-yellow-800',
-    APPROVED: 'bg-green-100 text-green-800',
-    REJECTED: 'bg-red-100 text-red-800',
-    SENT: 'bg-blue-100 text-blue-800',
+    PENDING: 'bg-neutral-100 text-neutral-800',
+    APPROVED: 'bg-neutral-100 text-neutral-800',
+    REJECTED: 'bg-neutral-100 text-neutral-800',
+    SENT: 'bg-neutral-100 text-neutral-800',
   };
 
   return (
@@ -165,7 +165,7 @@ export default function ApprovalsPage() {
 
                 {/* Rejection reason */}
                 {gen.approvalStatus === 'REJECTED' && gen.rejectionReason && (
-                  <p className="mt-2 text-xs text-red-600">Reason: {gen.rejectionReason}</p>
+                  <p className="mt-2 text-xs text-neutral-600">Reason: {gen.rejectionReason}</p>
                 )}
 
                 {/* Reject reason input */}
@@ -176,7 +176,7 @@ export default function ApprovalsPage() {
                       value={rejectReason}
                       onChange={(e) => setRejectReason(e.target.value)}
                       placeholder="Reason for rejection (optional)"
-                      className="w-full text-sm border border-red-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
+                      className="w-full text-sm border border-neutral-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-400"
                     />
                   </div>
                 )}
@@ -205,7 +205,7 @@ export default function ApprovalsPage() {
                         <button
                           onClick={() => handleReject(gen.id)}
                           disabled={actionLoading === gen.id}
-                          className="flex-1 px-4 py-2 bg-red-600 text-white text-sm rounded-lg font-medium hover:bg-red-700 disabled:opacity-50"
+                          className="flex-1 px-4 py-2 bg-neutral-600 text-white text-sm rounded-lg font-medium hover:bg-neutral-700 disabled:opacity-50"
                         >
                           {actionLoading === gen.id ? 'Rejecting...' : '✗ Confirm Reject'}
                         </button>
@@ -233,7 +233,7 @@ export default function ApprovalsPage() {
                         </button>
                         <button
                           onClick={() => setRejectingId(gen.id)}
-                          className="px-4 py-2 border border-red-200 text-red-600 text-sm rounded-lg hover:bg-red-50"
+                          className="px-4 py-2 border border-neutral-200 text-neutral-600 text-sm rounded-lg hover:bg-neutral-50"
                         >
                           ✗ Reject
                         </button>

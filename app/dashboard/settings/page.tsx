@@ -133,10 +133,10 @@ export default function SettingsPage() {
 
       <div className="max-w-2xl mx-auto px-6 py-8 space-y-6">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm">{error}</div>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-800 text-sm">{error}</div>
         )}
         {success && (
-          <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800 text-sm">{success}</div>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-800 text-sm">{success}</div>
         )}
 
         {/* Account Info */}
@@ -191,14 +191,14 @@ export default function SettingsPage() {
               </p>
             </div>
             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-              settings.twoFactorEnabled ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
+              settings.twoFactorEnabled ? 'bg-neutral-100 text-neutral-700' : 'bg-gray-100 text-gray-500'
             }`}>
               {settings.twoFactorEnabled ? 'Enabled' : 'Disabled'}
             </span>
           </div>
 
           {twoFAError && (
-            <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{twoFAError}</div>
+            <div className="mt-3 p-3 bg-neutral-50 border border-neutral-200 rounded-lg text-sm text-neutral-700">{twoFAError}</div>
           )}
 
           {twoFAStep === 'idle' && !settings.twoFactorEnabled && (
@@ -267,15 +267,15 @@ export default function SettingsPage() {
           {settings.twoFactorEnabled && twoFAStep === 'idle' && (
             <button
               onClick={() => { setTwoFAStep('disabling'); setTotpToken(''); setTwoFAError(''); }}
-              className="mt-4 px-4 py-2 border border-red-300 text-red-600 text-sm rounded-lg hover:bg-red-50"
+              className="mt-4 px-4 py-2 border border-neutral-300 text-neutral-600 text-sm rounded-lg hover:bg-neutral-50"
             >
               Disable 2FA
             </button>
           )}
 
           {twoFAStep === 'disabling' && (
-            <div className="mt-4 bg-red-50 border border-red-200 rounded-xl p-4 space-y-3">
-              <p className="text-sm font-medium text-red-800">Confirm with your authenticator app code:</p>
+            <div className="mt-4 bg-neutral-50 border border-neutral-200 rounded-xl p-4 space-y-3">
+              <p className="text-sm font-medium text-neutral-800">Confirm with your authenticator app code:</p>
               <div className="flex gap-3">
                 <input
                   type="text"
@@ -283,12 +283,12 @@ export default function SettingsPage() {
                   onChange={(e) => setTotpToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="123456"
                   maxLength={6}
-                  className="flex-1 px-3 py-2 border border-red-300 rounded-lg text-sm font-mono tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-red-400"
+                  className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg text-sm font-mono tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-neutral-400"
                 />
                 <button
                   onClick={disable2FA}
                   disabled={twoFALoading || totpToken.length !== 6}
-                  className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg disabled:opacity-50 hover:bg-red-700"
+                  className="px-4 py-2 bg-neutral-600 text-white text-sm rounded-lg disabled:opacity-50 hover:bg-neutral-700"
                 >
                   {twoFALoading ? 'Disabling...' : 'Confirm Disable'}
                 </button>
@@ -314,7 +314,7 @@ export default function SettingsPage() {
           </button>
           <button
             onClick={handleLogout}
-            className="flex-1 px-6 py-3 border border-red-300 text-red-600 rounded-xl hover:bg-red-50 font-medium"
+            className="flex-1 px-6 py-3 border border-neutral-300 text-neutral-600 rounded-xl hover:bg-neutral-50 font-medium"
           >
             Logout
           </button>

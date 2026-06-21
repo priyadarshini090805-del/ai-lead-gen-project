@@ -139,7 +139,7 @@ export default function ConversationDetailPage() {
   if (loading) return <div className="h-screen flex items-center justify-center text-gray-400">Loading...</div>;
   if (!conversation) return (
     <div className="p-8 text-center">
-      <p className="text-red-600">{error || 'Conversation not found'}</p>
+      <p className="text-neutral-600">{error || 'Conversation not found'}</p>
       <Link href="/dashboard/conversations" className="text-sm text-gray-500 mt-2 inline-block">← Back</Link>
     </div>
   );
@@ -175,7 +175,7 @@ export default function ConversationDetailPage() {
         {lead && (
           <div className="px-4 py-3 border-b border-gray-100">
             <Link href={`/dashboard/leads/${lead.id}`}
-              className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1">
+              className="text-xs text-neutral-600 hover:text-neutral-800 flex items-center gap-1">
               View Lead Profile →
             </Link>
           </div>
@@ -199,7 +199,7 @@ export default function ConversationDetailPage() {
                 <button
                   key={i}
                   onClick={() => sendMessage(s)}
-                  className="w-full text-left text-xs p-2.5 bg-violet-50 text-violet-900 rounded-lg hover:bg-violet-100 transition-colors border border-violet-100"
+                  className="w-full text-left text-xs p-2.5 bg-neutral-50 text-neutral-900 rounded-lg hover:bg-neutral-100 transition-colors border border-neutral-100"
                 >
                   {s}
                 </button>
@@ -281,7 +281,7 @@ export default function ConversationDetailPage() {
                           <div
                             className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                               isMe
-                                ? `bg-black text-white rounded-tr-sm ${msg.isAiSuggested ? 'ring-2 ring-violet-400 ring-offset-1' : ''}`
+                                ? `bg-black text-white rounded-tr-sm ${msg.isAiSuggested ? 'ring-2 ring-neutral-400 ring-offset-1' : ''}`
                                 : 'bg-gray-100 text-black rounded-tl-sm'
                             }`}
                           >
@@ -289,7 +289,7 @@ export default function ConversationDetailPage() {
                           </div>
                           <div className={`flex items-center gap-1.5 px-1 ${isMe ? 'justify-end' : 'justify-start'}`}>
                             {msg.isAiSuggested && (
-                              <span className="text-xs text-violet-500">✨ AI</span>
+                              <span className="text-xs text-neutral-500">✨ AI</span>
                             )}
                             <span className="text-xs text-gray-300">{formatTime(msg.createdAt)}</span>
                           </div>
@@ -312,7 +312,7 @@ export default function ConversationDetailPage() {
         {/* Compose area */}
         <div className="border-t border-gray-200 px-5 py-4 shrink-0">
           {error && (
-            <div className="mb-2 text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</div>
+            <div className="mb-2 text-xs text-neutral-600 bg-neutral-50 rounded-lg px-3 py-2">{error}</div>
           )}
           <div className="flex gap-3 items-end">
             <div className="flex-1 border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-black">

@@ -104,36 +104,36 @@ export default function LeadImportPage() {
 
       <div className="max-w-2xl mx-auto px-6 py-12">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
         {stats ? (
           <div className="space-y-4 text-center">
-            <div className="text-6xl font-bold text-green-600">✓</div>
+            <div className="text-6xl font-bold text-neutral-600">✓</div>
             <h2 className="text-2xl font-bold text-black">Import Complete!</h2>
             <div className="grid grid-cols-3 gap-4 my-8">
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-sm text-gray-600">Total</p>
                 <p className="text-2xl font-bold text-black">{stats.total}</p>
               </div>
-              <div className="bg-green-50 p-4 rounded-lg">
-                <p className="text-sm text-green-800">Successful</p>
-                <p className="text-2xl font-bold text-green-900">{stats.successful}</p>
+              <div className="bg-neutral-50 p-4 rounded-lg">
+                <p className="text-sm text-neutral-800">Successful</p>
+                <p className="text-2xl font-bold text-neutral-900">{stats.successful}</p>
               </div>
-              <div className="bg-red-50 p-4 rounded-lg">
-                <p className="text-sm text-red-800">Failed</p>
-                <p className="text-2xl font-bold text-red-900">{stats.failed}</p>
+              <div className="bg-neutral-50 p-4 rounded-lg">
+                <p className="text-sm text-neutral-800">Failed</p>
+                <p className="text-2xl font-bold text-neutral-900">{stats.failed}</p>
               </div>
             </div>
             <p className="text-gray-600 mb-4">Redirecting to leads page...</p>
           </div>
         ) : (
           <>
-            <div className="bg-blue-50 p-6 rounded-lg mb-8 border border-blue-200">
-              <h3 className="font-semibold text-blue-900 mb-2">CSV Format Required</h3>
-              <p className="text-sm text-blue-800">
+            <div className="bg-neutral-50 p-6 rounded-lg mb-8 border border-neutral-200">
+              <h3 className="font-semibold text-neutral-900 mb-2">CSV Format Required</h3>
+              <p className="text-sm text-neutral-800">
                 Your CSV should have columns: firstName, lastName, email, company (optional), phone (optional), title (optional), location (optional)
               </p>
             </div>

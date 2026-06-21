@@ -94,8 +94,8 @@ export default function LinkedInManagementPage() {
         </div>
 
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 

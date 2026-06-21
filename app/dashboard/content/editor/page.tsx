@@ -114,8 +114,8 @@ export default function ContentEditorPage() {
 
       <div className="max-w-4xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -170,7 +170,7 @@ export default function ContentEditorPage() {
                 <button
                   onClick={generateWithAI}
                   disabled={aiLoading || !formData.title}
-                  className="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200 disabled:opacity-50"
+                  className="text-sm px-3 py-1 bg-neutral-100 text-neutral-800 rounded hover:bg-neutral-200 disabled:opacity-50"
                 >
                   {aiLoading ? 'Generating...' : '✨ Generate with AI'}
                 </button>

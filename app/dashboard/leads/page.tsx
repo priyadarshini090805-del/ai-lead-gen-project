@@ -52,13 +52,13 @@ export default function LeadsPage() {
       case 'NEW':
         return 'bg-gray-100 text-gray-800';
       case 'CONTACTED':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'RESPONDED':
-        return 'bg-green-100 text-green-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'CONVERTED':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'BOUNCED':
-        return 'bg-red-100 text-red-800';
+        return 'bg-neutral-100 text-neutral-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -82,8 +82,8 @@ export default function LeadsPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -153,7 +153,7 @@ export default function LeadsPage() {
                       {new Date(lead.createdAt).toLocaleDateString()}
                     </td>
                     <td className="text-right px-4 py-3 text-sm">
-                      <Link href={`/dashboard/leads/${lead.id}`} className="text-blue-600 hover:text-blue-800">
+                      <Link href={`/dashboard/leads/${lead.id}`} className="text-neutral-600 hover:text-neutral-800">
                         View
                       </Link>
                     </td>
@@ -165,7 +165,7 @@ export default function LeadsPage() {
         ) : (
           <div className="text-center py-12">
             <p className="text-gray-500 mb-4">No leads yet</p>
-            <Link href="/dashboard/leads/import" className="text-blue-600 hover:text-blue-800">
+            <Link href="/dashboard/leads/import" className="text-neutral-600 hover:text-neutral-800">
               Import leads →
             </Link>
           </div>

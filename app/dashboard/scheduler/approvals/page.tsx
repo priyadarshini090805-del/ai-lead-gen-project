@@ -16,10 +16,10 @@ interface ScheduledItem {
 }
 
 const PLATFORM_COLORS: Record<string, string> = {
-  LINKEDIN: 'bg-blue-600',
-  TWITTER: 'bg-sky-400',
-  INSTAGRAM: 'bg-pink-500',
-  FACEBOOK: 'bg-indigo-600',
+  LINKEDIN: 'bg-neutral-600',
+  TWITTER: 'bg-neutral-400',
+  INSTAGRAM: 'bg-neutral-500',
+  FACEBOOK: 'bg-neutral-600',
 };
 
 export default function ContentApprovalsPage() {
@@ -119,9 +119,9 @@ export default function ContentApprovalsPage() {
                     )}
                   </div>
                   <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    item.approvalStatus === 'APPROVED' ? 'bg-green-100 text-green-800' :
-                    item.approvalStatus === 'REJECTED' ? 'bg-red-100 text-red-800' :
-                    'bg-yellow-100 text-yellow-800'
+                    item.approvalStatus === 'APPROVED' ? 'bg-neutral-100 text-neutral-800' :
+                    item.approvalStatus === 'REJECTED' ? 'bg-neutral-100 text-neutral-800' :
+                    'bg-neutral-100 text-neutral-800'
                   }`}>
                     {item.approvalStatus}
                   </span>
@@ -152,14 +152,14 @@ export default function ContentApprovalsPage() {
                         <button
                           onClick={() => approve(item.id)}
                           disabled={actionId === item.id}
-                          className="flex-1 px-4 py-2 bg-green-600 text-white text-sm rounded-lg font-medium hover:bg-green-700 disabled:opacity-50"
+                          className="flex-1 px-4 py-2 bg-neutral-600 text-white text-sm rounded-lg font-medium hover:bg-neutral-700 disabled:opacity-50"
                         >
                           {actionId === item.id ? '...' : '✓ Approve'}
                         </button>
                         <button
                           onClick={() => reject(item.id)}
                           disabled={actionId === item.id}
-                          className="flex-1 px-4 py-2 bg-red-600 text-white text-sm rounded-lg font-medium hover:bg-red-700 disabled:opacity-50"
+                          className="flex-1 px-4 py-2 bg-neutral-600 text-white text-sm rounded-lg font-medium hover:bg-neutral-700 disabled:opacity-50"
                         >
                           {actionId === item.id ? '...' : '✗ Reject'}
                         </button>
@@ -187,7 +187,7 @@ export default function ContentApprovalsPage() {
                         </button>
                         <button
                           onClick={() => reject(item.id)}
-                          className="px-4 py-2 border border-red-200 text-red-600 text-sm rounded-lg hover:bg-red-50"
+                          className="px-4 py-2 border border-neutral-200 text-neutral-600 text-sm rounded-lg hover:bg-neutral-50"
                         >
                           ✗ Reject
                         </button>

@@ -87,8 +87,8 @@ function ResetPasswordPage() {
           </p>
         </div>
 
-        <div className="p-4 bg-green-50 border border-green-200 rounded-md">
-          <p className="text-sm text-green-800">
+        <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-md">
+          <p className="text-sm text-neutral-800">
             You can now sign in with your new password.
           </p>
         </div>
@@ -131,8 +131,8 @@ function ResetPasswordPage() {
       </div>
 
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-sm text-red-800">{error}</p>
+        <div className="p-3 bg-neutral-50 border border-neutral-200 rounded-md">
+          <p className="text-sm text-neutral-800">{error}</p>
         </div>
       )}
 
@@ -151,7 +151,7 @@ function ResetPasswordPage() {
             placeholder="••••••••"
           />
           {fieldErrors.password && (
-            <p className="mt-1 text-xs text-red-600">{fieldErrors.password[0]}</p>
+            <p className="mt-1 text-xs text-neutral-600">{fieldErrors.password[0]}</p>
           )}
           <p className="mt-1 text-xs text-gray-600">
             Must be at least 8 characters with uppercase, lowercase, number, and special character
@@ -172,7 +172,7 @@ function ResetPasswordPage() {
             placeholder="••••••••"
           />
           {fieldErrors.confirmPassword && (
-            <p className="mt-1 text-xs text-red-600">{fieldErrors.confirmPassword[0]}</p>
+            <p className="mt-1 text-xs text-neutral-600">{fieldErrors.confirmPassword[0]}</p>
           )}
         </div>
 

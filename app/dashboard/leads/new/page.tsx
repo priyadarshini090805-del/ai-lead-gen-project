@@ -82,8 +82,8 @@ export default function NewLeadPage() {
       {/* Form */}
       <div className="max-w-2xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-md mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-md mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 

@@ -51,32 +51,32 @@ export default function DashboardPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
         {data && (
           <>
             <div className="grid grid-cols-4 gap-4 mb-8">
-              <Link href="/dashboard/leads" className="bg-blue-50 p-6 rounded-lg hover:shadow-lg transition">
-                <p className="text-sm text-blue-800 font-medium">Total Leads</p>
-                <p className="text-3xl font-bold text-blue-900">{data.totalLeads}</p>
+              <Link href="/dashboard/leads" className="bg-neutral-50 p-6 rounded-lg hover:shadow-lg transition">
+                <p className="text-sm text-neutral-800 font-medium">Total Leads</p>
+                <p className="text-3xl font-bold text-neutral-900">{data.totalLeads}</p>
               </Link>
 
-              <Link href="/dashboard/campaigns" className="bg-green-50 p-6 rounded-lg hover:shadow-lg transition">
-                <p className="text-sm text-green-800 font-medium">Campaigns</p>
-                <p className="text-3xl font-bold text-green-900">{data.totalCampaigns}</p>
+              <Link href="/dashboard/campaigns" className="bg-neutral-50 p-6 rounded-lg hover:shadow-lg transition">
+                <p className="text-sm text-neutral-800 font-medium">Campaigns</p>
+                <p className="text-3xl font-bold text-neutral-900">{data.totalCampaigns}</p>
               </Link>
 
-              <Link href="/dashboard/workflows" className="bg-purple-50 p-6 rounded-lg hover:shadow-lg transition">
-                <p className="text-sm text-purple-800 font-medium">Workflows</p>
-                <p className="text-3xl font-bold text-purple-900">{data.totalWorkflows}</p>
+              <Link href="/dashboard/workflows" className="bg-neutral-50 p-6 rounded-lg hover:shadow-lg transition">
+                <p className="text-sm text-neutral-800 font-medium">Workflows</p>
+                <p className="text-3xl font-bold text-neutral-900">{data.totalWorkflows}</p>
               </Link>
 
-              <Link href="/dashboard/content" className="bg-orange-50 p-6 rounded-lg hover:shadow-lg transition">
-                <p className="text-sm text-orange-800 font-medium">Content Pieces</p>
-                <p className="text-3xl font-bold text-orange-900">0</p>
+              <Link href="/dashboard/content" className="bg-neutral-50 p-6 rounded-lg hover:shadow-lg transition">
+                <p className="text-sm text-neutral-800 font-medium">Content Pieces</p>
+                <p className="text-3xl font-bold text-neutral-900">0</p>
               </Link>
             </div>
 

@@ -80,7 +80,7 @@ export default function SchedulePostModal({ onClose, onScheduled }: Props) {
 
         <div className="p-6 space-y-4">
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">{error}</div>
+            <div className="p-3 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-800 text-sm">{error}</div>
           )}
 
           <div>
@@ -92,8 +92,8 @@ export default function SchedulePostModal({ onClose, onScheduled }: Props) {
             </select>
           </div>
 
-          <div className="border border-purple-200 bg-purple-50 rounded-lg p-4 space-y-3">
-            <div className="text-sm font-semibold text-purple-900">✨ Generate with AI</div>
+          <div className="border border-neutral-200 bg-neutral-50 rounded-lg p-4 space-y-3">
+            <div className="text-sm font-semibold text-neutral-900">✨ Generate with AI</div>
             <input value={topic} onChange={e => setTopic(e.target.value)}
               placeholder="Topic (e.g. AI in sales prospecting)"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-black text-sm" />
@@ -106,7 +106,7 @@ export default function SchedulePostModal({ onClose, onScheduled }: Props) {
                 <option value="direct">Direct</option>
               </select>
               <button onClick={generateWithAI} disabled={generating}
-                className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm font-medium disabled:opacity-50">
+                className="flex-1 px-4 py-2 bg-neutral-600 text-white rounded-lg hover:bg-neutral-700 text-sm font-medium disabled:opacity-50">
                 {generating ? 'Generating…' : 'Generate content'}
               </button>
             </div>

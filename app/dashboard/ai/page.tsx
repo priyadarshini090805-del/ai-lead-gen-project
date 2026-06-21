@@ -178,8 +178,8 @@ function AIPage() {
           <div className="col-span-2">
             <form onSubmit={handleGenerateMessage} className="space-y-6 bg-gray-50 p-6 rounded-lg">
               {error && (
-                <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-                  <p className="text-red-800">{error}</p>
+                <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-md">
+                  <p className="text-neutral-800">{error}</p>
                 </div>
               )}
 
@@ -269,7 +269,7 @@ function AIPage() {
 
             {/* Result */}
             {result && (
-              <div className="mt-8 bg-green-50 border border-green-200 rounded-lg p-6">
+              <div className="mt-8 bg-neutral-50 border border-neutral-200 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-black mb-4">Generated Message</h3>
                 <div className="bg-white p-4 border border-gray-200 rounded mb-4 max-h-64 overflow-y-auto">
                   <p className="text-black whitespace-pre-wrap">{result.message}</p>

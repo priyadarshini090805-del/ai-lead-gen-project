@@ -92,7 +92,7 @@ export default function NotificationBell() {
       >
         <span className="text-xl">🔔</span>
         {unread > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-xs font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+          <span className="absolute -top-0.5 -right-0.5 bg-neutral-500 text-white text-xs font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
             {unread > 99 ? '99+' : unread}
           </span>
         )}
@@ -103,7 +103,7 @@ export default function NotificationBell() {
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
             <h3 className="font-semibold text-black">Notifications</h3>
             {unread > 0 && (
-              <button onClick={markAllRead} className="text-xs text-blue-600 hover:underline">
+              <button onClick={markAllRead} className="text-xs text-neutral-600 hover:underline">
                 Mark all read
               </button>
             )}
@@ -117,7 +117,7 @@ export default function NotificationBell() {
                   key={n.id}
                   onClick={() => openItem(n)}
                   className={`w-full text-left px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition flex gap-3 ${
-                    !n.read ? 'bg-blue-50/50' : ''
+                    !n.read ? 'bg-neutral-50/50' : ''
                   }`}
                 >
                   <span className="text-lg shrink-0">{TYPE_ICONS[n.type] || '📌'}</span>
@@ -128,7 +128,7 @@ export default function NotificationBell() {
                     {n.body && <div className="text-xs text-gray-600 truncate">{n.body}</div>}
                     <div className="text-xs text-gray-400 mt-0.5">{timeAgo(n.createdAt)}</div>
                   </div>
-                  {!n.read && <span className="ml-auto mt-1 w-2 h-2 bg-blue-500 rounded-full shrink-0" />}
+                  {!n.read && <span className="ml-auto mt-1 w-2 h-2 bg-neutral-500 rounded-full shrink-0" />}
                 </button>
               ))
             )}

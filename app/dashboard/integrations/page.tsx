@@ -19,21 +19,21 @@ const providers = [
     id: 'LINKEDIN',
     icon: '💼',
     description: 'Connect your LinkedIn account to sync leads and publish posts',
-    color: 'bg-blue-50',
+    color: 'bg-neutral-50',
   },
   {
     name: 'Instagram',
     id: 'INSTAGRAM',
     icon: '📷',
     description: 'Connect Instagram to publish and schedule content',
-    color: 'bg-pink-50',
+    color: 'bg-neutral-50',
   },
   {
     name: 'Google',
     id: 'GOOGLE',
     icon: '🔍',
     description: 'Connect Google to capture Gmail inquiries as leads automatically',
-    color: 'bg-green-50',
+    color: 'bg-neutral-50',
   },
 ];
 
@@ -113,13 +113,13 @@ export default function IntegrationsPage() {
         </div>
 
         {banner && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+          <div className="mb-4 p-4 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-800">
             {banner}
           </div>
         )}
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+          <div className="mb-4 p-4 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-800">
             {error}
           </div>
         )}
@@ -146,7 +146,7 @@ export default function IntegrationsPage() {
                         <div className="flex items-center gap-2 mt-1">
                           <div
                             className={`w-2 h-2 rounded-full ${
-                              integration.status === 'ACTIVE' ? 'bg-green-500' : 'bg-red-500'
+                              integration.status === 'ACTIVE' ? 'bg-neutral-500' : 'bg-neutral-500'
                             }`}
                           />
                           <span className="font-medium text-black">{integration.status}</span>
@@ -167,7 +167,7 @@ export default function IntegrationsPage() {
 
                       <button
                         onClick={() => disconnectIntegration(integration.id)}
-                        className="w-full px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 font-medium"
+                        className="w-full px-4 py-2 bg-neutral-100 text-neutral-600 rounded-lg hover:bg-neutral-200 font-medium"
                       >
                         Disconnect
                       </button>

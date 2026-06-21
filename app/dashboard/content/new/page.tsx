@@ -125,7 +125,7 @@ export default function NewContentPage() {
         <h1 className="text-3xl font-bold text-black mb-8">Create Content</h1>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+          <div className="mb-6 p-4 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-800">
             {error}
           </div>
         )}
@@ -198,7 +198,7 @@ export default function NewContentPage() {
                 type="button"
                 onClick={generateWithAI}
                 disabled={generating || !aiInput}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="px-4 py-2 bg-neutral-600 text-white rounded-lg hover:bg-neutral-700 disabled:opacity-50"
               >
                 {generating ? 'Generating...' : 'Generate Content'}
               </button>

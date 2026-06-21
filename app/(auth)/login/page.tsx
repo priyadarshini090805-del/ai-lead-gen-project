@@ -49,7 +49,7 @@ export default function LoginPage() {
       </div>
 
       {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700 animate-scale-in">{error}</div>
+        <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm text-neutral-700 animate-scale-in">{error}</div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">

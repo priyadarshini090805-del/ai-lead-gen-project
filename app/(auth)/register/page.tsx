@@ -58,35 +58,35 @@ export default function RegisterPage() {
         <div className="h-px flex-1 bg-neutral-200" />
       </div>
 
-      {error && <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700 animate-scale-in">{error}</div>}
+      {error && <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm text-neutral-700 animate-scale-in">{error}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-black mb-1.5">First name</label>
             <input name="firstName" required className="hx-input" placeholder="Jane" suppressHydrationWarning />
-            {err('firstName') && <p className="mt-1 text-xs text-red-600">{err('firstName')}</p>}
+            {err('firstName') && <p className="mt-1 text-xs text-neutral-600">{err('firstName')}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium text-black mb-1.5">Last name</label>
             <input name="lastName" required className="hx-input" placeholder="Doe" suppressHydrationWarning />
-            {err('lastName') && <p className="mt-1 text-xs text-red-600">{err('lastName')}</p>}
+            {err('lastName') && <p className="mt-1 text-xs text-neutral-600">{err('lastName')}</p>}
           </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-black mb-1.5">Email</label>
           <input name="email" type="email" required className="hx-input" placeholder="you@example.com" suppressHydrationWarning />
-          {err('email') && <p className="mt-1 text-xs text-red-600">{err('email')}</p>}
+          {err('email') && <p className="mt-1 text-xs text-neutral-600">{err('email')}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-black mb-1.5">Password</label>
           <input name="password" type="password" required className="hx-input" placeholder="At least 8 characters" suppressHydrationWarning />
-          {err('password') && <p className="mt-1 text-xs text-red-600">{err('password')}</p>}
+          {err('password') && <p className="mt-1 text-xs text-neutral-600">{err('password')}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-black mb-1.5">Confirm password</label>
           <input name="confirmPassword" type="password" required className="hx-input" placeholder="Re-enter password" suppressHydrationWarning />
-          {err('confirmPassword') && <p className="mt-1 text-xs text-red-600">{err('confirmPassword')}</p>}
+          {err('confirmPassword') && <p className="mt-1 text-xs text-neutral-600">{err('confirmPassword')}</p>}
         </div>
         <button type="submit" disabled={isLoading} className="hx-btn-primary w-full disabled:opacity-50">
           {isLoading ? 'Creating account...' : 'Create account'}

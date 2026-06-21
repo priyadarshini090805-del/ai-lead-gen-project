@@ -59,8 +59,8 @@ export default function ConversationsPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -93,7 +93,7 @@ export default function ConversationsPage() {
                 <div className="text-right">
                   <p className="text-xs text-gray-600 mb-1">{c.platform}</p>
                   {c.unreadCount > 0 && (
-                    <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded">
+                    <span className="inline-block px-2 py-1 bg-neutral-100 text-neutral-800 text-xs font-semibold rounded">
                       {c.unreadCount} new
                     </span>
                   )}

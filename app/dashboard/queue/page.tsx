@@ -47,9 +47,9 @@ export default function QueueMonitorPage() {
   };
 
   const getHealthStatus = (failed: number, total: number) => {
-    if (failed === 0) return { color: 'bg-green-100 text-green-800', text: 'Healthy' };
-    if (failed < total * 0.1) return { color: 'bg-yellow-100 text-yellow-800', text: 'Warning' };
-    return { color: 'bg-red-100 text-red-800', text: 'Critical' };
+    if (failed === 0) return { color: 'bg-neutral-100 text-neutral-800', text: 'Healthy' };
+    if (failed < total * 0.1) return { color: 'bg-neutral-100 text-neutral-800', text: 'Warning' };
+    return { color: 'bg-neutral-100 text-neutral-800', text: 'Critical' };
   };
 
   return (
@@ -65,8 +65,8 @@ export default function QueueMonitorPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -93,25 +93,25 @@ export default function QueueMonitorPage() {
                       <p className="text-xs text-gray-600">Total</p>
                       <p className="text-2xl font-bold text-black">{q.count}</p>
                     </div>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <p className="text-xs text-blue-800">Active</p>
-                      <p className="text-2xl font-bold text-blue-900">{q.active}</p>
+                    <div className="bg-neutral-50 p-3 rounded">
+                      <p className="text-xs text-neutral-800">Active</p>
+                      <p className="text-2xl font-bold text-neutral-900">{q.active}</p>
                     </div>
-                    <div className="bg-purple-50 p-3 rounded">
-                      <p className="text-xs text-purple-800">Delayed</p>
-                      <p className="text-2xl font-bold text-purple-900">{q.delayed}</p>
+                    <div className="bg-neutral-50 p-3 rounded">
+                      <p className="text-xs text-neutral-800">Delayed</p>
+                      <p className="text-2xl font-bold text-neutral-900">{q.delayed}</p>
                     </div>
-                    <div className="bg-yellow-50 p-3 rounded">
-                      <p className="text-xs text-yellow-800">Paused</p>
-                      <p className="text-2xl font-bold text-yellow-900">{q.paused}</p>
+                    <div className="bg-neutral-50 p-3 rounded">
+                      <p className="text-xs text-neutral-800">Paused</p>
+                      <p className="text-2xl font-bold text-neutral-900">{q.paused}</p>
                     </div>
-                    <div className="bg-green-50 p-3 rounded">
-                      <p className="text-xs text-green-800">Completed</p>
-                      <p className="text-2xl font-bold text-green-900">{q.completed}</p>
+                    <div className="bg-neutral-50 p-3 rounded">
+                      <p className="text-xs text-neutral-800">Completed</p>
+                      <p className="text-2xl font-bold text-neutral-900">{q.completed}</p>
                     </div>
-                    <div className="bg-red-50 p-3 rounded">
-                      <p className="text-xs text-red-800">Failed</p>
-                      <p className="text-2xl font-bold text-red-900">{q.failed}</p>
+                    <div className="bg-neutral-50 p-3 rounded">
+                      <p className="text-xs text-neutral-800">Failed</p>
+                      <p className="text-2xl font-bold text-neutral-900">{q.failed}</p>
                     </div>
                   </div>
 
@@ -119,7 +119,7 @@ export default function QueueMonitorPage() {
                     <p className="text-sm font-medium text-black">Processing Progress</p>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-blue-600 h-2 rounded-full transition-all"
+                        className="bg-neutral-600 h-2 rounded-full transition-all"
                         style={{ width: `${activePercent}%` }}
                       />
                     </div>

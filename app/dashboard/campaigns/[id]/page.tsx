@@ -56,7 +56,7 @@ export default function CampaignDetailPage() {
   };
 
   if (loading) return <div className="p-8 text-center text-gray-500">Loading campaign...</div>;
-  if (!campaign) return <div className="p-8 text-center text-red-600">Campaign not found</div>;
+  if (!campaign) return <div className="p-8 text-center text-neutral-600">Campaign not found</div>;
 
   return (
     <div className="min-h-screen bg-white">
@@ -71,8 +71,8 @@ export default function CampaignDetailPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -82,17 +82,17 @@ export default function CampaignDetailPage() {
               <p className="text-sm text-gray-600">Total Leads</p>
               <p className="text-2xl font-bold text-black">{stats.totalLeads}</p>
             </div>
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="text-sm text-blue-800">Contacted</p>
-              <p className="text-2xl font-bold text-blue-900">{stats.contacted}</p>
+            <div className="bg-neutral-50 p-4 rounded-lg">
+              <p className="text-sm text-neutral-800">Contacted</p>
+              <p className="text-2xl font-bold text-neutral-900">{stats.contacted}</p>
             </div>
-            <div className="bg-green-50 p-4 rounded-lg">
-              <p className="text-sm text-green-800">Responded</p>
-              <p className="text-2xl font-bold text-green-900">{stats.responded}</p>
+            <div className="bg-neutral-50 p-4 rounded-lg">
+              <p className="text-sm text-neutral-800">Responded</p>
+              <p className="text-2xl font-bold text-neutral-900">{stats.responded}</p>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <p className="text-sm text-purple-800">Converted</p>
-              <p className="text-2xl font-bold text-purple-900">{stats.converted}</p>
+            <div className="bg-neutral-50 p-4 rounded-lg">
+              <p className="text-sm text-neutral-800">Converted</p>
+              <p className="text-2xl font-bold text-neutral-900">{stats.converted}</p>
             </div>
           </div>
         )}
@@ -112,10 +112,10 @@ export default function CampaignDetailPage() {
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="font-semibold text-black mb-4">Status</h3>
               <p className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                campaign.status === 'RUNNING' ? 'bg-blue-100 text-blue-800' :
-                campaign.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                campaign.status === 'RUNNING' ? 'bg-neutral-100 text-neutral-800' :
+                campaign.status === 'COMPLETED' ? 'bg-neutral-100 text-neutral-800' :
                 campaign.status === 'DRAFT' ? 'bg-gray-100 text-gray-800' :
-                'bg-yellow-100 text-yellow-800'
+                'bg-neutral-100 text-neutral-800'
               }`}>
                 {campaign.status}
               </p>
@@ -126,7 +126,7 @@ export default function CampaignDetailPage() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-black">Leads ({campaign.leads.length})</h2>
-            <Link href={`/dashboard/campaigns/${id}/leads`} className="text-blue-600 hover:text-blue-800">
+            <Link href={`/dashboard/campaigns/${id}/leads`} className="text-neutral-600 hover:text-neutral-800">
               View all →
             </Link>
           </div>
@@ -158,7 +158,7 @@ export default function CampaignDetailPage() {
         </div>
 
         <div className="mt-8">
-          <Link href={`/dashboard/campaigns/${id}/analytics`} className="text-blue-600 hover:text-blue-800">
+          <Link href={`/dashboard/campaigns/${id}/analytics`} className="text-neutral-600 hover:text-neutral-800">
             View analytics →
           </Link>
         </div>

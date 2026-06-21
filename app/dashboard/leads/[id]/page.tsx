@@ -33,30 +33,30 @@ interface Lead {
 
 const STATUS_STYLES: Record<string, string> = {
   NEW: 'bg-gray-100 text-gray-700',
-  CONTACTED: 'bg-blue-100 text-blue-700',
-  RESPONDED: 'bg-indigo-100 text-indigo-700',
-  QUALIFIED: 'bg-amber-100 text-amber-700',
-  CONVERTED: 'bg-green-100 text-green-700',
-  LOST: 'bg-red-100 text-red-700',
+  CONTACTED: 'bg-neutral-100 text-neutral-700',
+  RESPONDED: 'bg-neutral-100 text-neutral-700',
+  QUALIFIED: 'bg-neutral-100 text-neutral-700',
+  CONVERTED: 'bg-neutral-100 text-neutral-700',
+  LOST: 'bg-neutral-100 text-neutral-700',
 };
 
 // ── Activity type → icon/colour map ───────────────────────────────────────────
 const ACTIVITY_CONFIG: Record<string, { icon: string; color: string; bg: string; label: string }> = {
-  EMAIL_SENT: { icon: '✉', color: 'text-blue-600', bg: 'bg-blue-50', label: 'Email Sent' },
-  EMAIL_OPENED: { icon: '👁', color: 'text-indigo-600', bg: 'bg-indigo-50', label: 'Email Opened' },
-  EMAIL_REPLIED: { icon: '↩', color: 'text-green-600', bg: 'bg-green-50', label: 'Email Replied' },
-  LINKEDIN_MESSAGE: { icon: 'in', color: 'text-blue-700', bg: 'bg-blue-50', label: 'LinkedIn Message' },
-  LINKEDIN_CONNECTED: { icon: '🤝', color: 'text-blue-700', bg: 'bg-blue-50', label: 'LinkedIn Connected' },
-  INSTAGRAM_MESSAGE: { icon: '📸', color: 'text-pink-600', bg: 'bg-pink-50', label: 'Instagram Message' },
-  CALL_MADE: { icon: '📞', color: 'text-green-600', bg: 'bg-green-50', label: 'Call Made' },
-  CALL_SCHEDULED: { icon: '📅', color: 'text-amber-600', bg: 'bg-amber-50', label: 'Call Scheduled' },
+  EMAIL_SENT: { icon: '✉', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Email Sent' },
+  EMAIL_OPENED: { icon: '👁', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Email Opened' },
+  EMAIL_REPLIED: { icon: '↩', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Email Replied' },
+  LINKEDIN_MESSAGE: { icon: 'in', color: 'text-neutral-700', bg: 'bg-neutral-50', label: 'LinkedIn Message' },
+  LINKEDIN_CONNECTED: { icon: '🤝', color: 'text-neutral-700', bg: 'bg-neutral-50', label: 'LinkedIn Connected' },
+  INSTAGRAM_MESSAGE: { icon: '📸', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Instagram Message' },
+  CALL_MADE: { icon: '📞', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Call Made' },
+  CALL_SCHEDULED: { icon: '📅', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Call Scheduled' },
   NOTE_ADDED: { icon: '📝', color: 'text-gray-600', bg: 'bg-gray-50', label: 'Note Added' },
-  STATUS_CHANGED: { icon: '⟳', color: 'text-purple-600', bg: 'bg-purple-50', label: 'Status Changed' },
-  TAG_ADDED: { icon: '🏷', color: 'text-teal-600', bg: 'bg-teal-50', label: 'Tag Added' },
-  TAG_REMOVED: { icon: '✂', color: 'text-red-500', bg: 'bg-red-50', label: 'Tag Removed' },
-  AI_MESSAGE_GENERATED: { icon: '✨', color: 'text-violet-600', bg: 'bg-violet-50', label: 'AI Message Generated' },
-  CAMPAIGN_ENROLLED: { icon: '🚀', color: 'text-orange-600', bg: 'bg-orange-50', label: 'Campaign Enrolled' },
-  LEAD_CREATED: { icon: '➕', color: 'text-green-700', bg: 'bg-green-50', label: 'Lead Created' },
+  STATUS_CHANGED: { icon: '⟳', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Status Changed' },
+  TAG_ADDED: { icon: '🏷', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Tag Added' },
+  TAG_REMOVED: { icon: '✂', color: 'text-neutral-500', bg: 'bg-neutral-50', label: 'Tag Removed' },
+  AI_MESSAGE_GENERATED: { icon: '✨', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'AI Message Generated' },
+  CAMPAIGN_ENROLLED: { icon: '🚀', color: 'text-neutral-600', bg: 'bg-neutral-50', label: 'Campaign Enrolled' },
+  LEAD_CREATED: { icon: '➕', color: 'text-neutral-700', bg: 'bg-neutral-50', label: 'Lead Created' },
 };
 
 function getActivityConfig(type: string) {
@@ -126,7 +126,7 @@ export default function LeadDetailPage() {
   if (loading) return <div className="p-8 text-center text-gray-500">Loading lead...</div>;
   if (!lead) return (
     <div className="p-8 text-center">
-      <p className="text-red-600 mb-4">{error || 'Lead not found'}</p>
+      <p className="text-neutral-600 mb-4">{error || 'Lead not found'}</p>
       <Link href="/dashboard/leads" className="text-sm text-gray-500 hover:text-black">← Back to leads</Link>
     </div>
   );
@@ -171,7 +171,7 @@ export default function LeadDetailPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-6">
-        {error && <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-4 text-sm text-red-700">{error}</div>}
+        {error && <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-4 text-sm text-neutral-700">{error}</div>}
 
         <div className="grid grid-cols-3 gap-6">
           {/* Left column — contact info + tags */}
@@ -207,7 +207,7 @@ export default function LeadDetailPage() {
                 {tagNames.map((tag) => (
                   <span key={tag} className="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-full flex items-center gap-1">
                     {tag}
-                    <button onClick={() => removeTag(tag)} className="text-gray-400 hover:text-red-500 leading-none">×</button>
+                    <button onClick={() => removeTag(tag)} className="text-gray-400 hover:text-neutral-500 leading-none">×</button>
                   </span>
                 ))}
               </div>

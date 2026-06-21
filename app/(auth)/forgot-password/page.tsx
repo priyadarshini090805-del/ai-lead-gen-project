@@ -51,8 +51,8 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
 
-        <div className="p-4 bg-green-50 border border-green-200 rounded-md">
-          <p className="text-sm text-green-800">
+        <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-md">
+          <p className="text-sm text-neutral-800">
             If you don&apos;t see the email, check your spam folder or try again in a few minutes.
           </p>
         </div>
@@ -76,8 +76,8 @@ export default function ForgotPasswordPage() {
       </div>
 
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-sm text-red-800">{error}</p>
+        <div className="p-3 bg-neutral-50 border border-neutral-200 rounded-md">
+          <p className="text-sm text-neutral-800">{error}</p>
         </div>
       )}
 

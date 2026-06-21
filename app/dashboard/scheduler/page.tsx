@@ -13,10 +13,10 @@ interface ScheduledContent {
 }
 
 const PLATFORM_COLORS: Record<string, string> = {
-  LINKEDIN: 'bg-blue-600',
-  TWITTER: 'bg-sky-400',
-  INSTAGRAM: 'bg-pink-500',
-  FACEBOOK: 'bg-indigo-600',
+  LINKEDIN: 'bg-neutral-600',
+  TWITTER: 'bg-neutral-400',
+  INSTAGRAM: 'bg-neutral-500',
+  FACEBOOK: 'bg-neutral-600',
 };
 const PLATFORM_LABELS: Record<string, string> = {
   LINKEDIN: 'LI',
@@ -25,11 +25,11 @@ const PLATFORM_LABELS: Record<string, string> = {
   FACEBOOK: 'FB',
 };
 const STATUS_COLORS: Record<string, string> = {
-  PENDING: 'bg-yellow-100 text-yellow-800',
-  PUBLISHED: 'bg-green-100 text-green-800',
-  FAILED: 'bg-red-100 text-red-800',
+  PENDING: 'bg-neutral-100 text-neutral-800',
+  PUBLISHED: 'bg-neutral-100 text-neutral-800',
+  FAILED: 'bg-neutral-100 text-neutral-800',
   CANCELLED: 'bg-gray-100 text-gray-600',
-  PROCESSING: 'bg-blue-100 text-blue-800',
+  PROCESSING: 'bg-neutral-100 text-neutral-800',
 };
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -120,9 +120,9 @@ export default function SchedulerPage() {
         {stats && (
           <div className="grid grid-cols-4 gap-3 mb-6">
             {[
-              { label: 'Pending', value: stats.pending, color: 'text-yellow-600' },
-              { label: 'Published', value: stats.published, color: 'text-green-600' },
-              { label: 'Failed', value: stats.failed || 0, color: 'text-red-600' },
+              { label: 'Pending', value: stats.pending, color: 'text-neutral-600' },
+              { label: 'Published', value: stats.published, color: 'text-neutral-600' },
+              { label: 'Failed', value: stats.failed || 0, color: 'text-neutral-600' },
               { label: 'Total', value: stats.total, color: 'text-black' },
             ].map((s) => (
               <div key={s.label} className="bg-gray-50 rounded-xl p-4">

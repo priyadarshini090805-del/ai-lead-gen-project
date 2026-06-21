@@ -60,7 +60,7 @@ function CampaignAnalyticsPage() {
   }
 
   if (!metrics) {
-    return <div className="p-8 text-center text-red-600">Campaign not found</div>;
+    return <div className="p-8 text-center text-neutral-600">Campaign not found</div>;
   }
 
   return (
@@ -76,8 +76,8 @@ function CampaignAnalyticsPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 
@@ -96,21 +96,21 @@ function CampaignAnalyticsPage() {
           </div>
 
           <div className="grid grid-cols-4 gap-4 mb-8">
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-              <p className="text-sm text-blue-800 font-medium">Total Leads</p>
-              <p className="text-3xl font-bold text-blue-900">{metrics.totalLeads}</p>
+            <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
+              <p className="text-sm text-neutral-800 font-medium">Total Leads</p>
+              <p className="text-3xl font-bold text-neutral-900">{metrics.totalLeads}</p>
             </div>
-            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-              <p className="text-sm text-green-800 font-medium">Contacted</p>
-              <p className="text-3xl font-bold text-green-900">{metrics.contacted}</p>
+            <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
+              <p className="text-sm text-neutral-800 font-medium">Contacted</p>
+              <p className="text-3xl font-bold text-neutral-900">{metrics.contacted}</p>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-              <p className="text-sm text-purple-800 font-medium">Responses</p>
-              <p className="text-3xl font-bold text-purple-900">{metrics.responded}</p>
+            <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
+              <p className="text-sm text-neutral-800 font-medium">Responses</p>
+              <p className="text-3xl font-bold text-neutral-900">{metrics.responded}</p>
             </div>
-            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-              <p className="text-sm text-orange-800 font-medium">Conversions</p>
-              <p className="text-3xl font-bold text-orange-900">{metrics.converted}</p>
+            <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
+              <p className="text-sm text-neutral-800 font-medium">Conversions</p>
+              <p className="text-3xl font-bold text-neutral-900">{metrics.converted}</p>
             </div>
           </div>
 

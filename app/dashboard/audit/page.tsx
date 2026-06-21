@@ -45,20 +45,20 @@ export default function AuditPage() {
   const getActionColor = (action: string) => {
     switch (action) {
       case 'CREATE':
-        return 'bg-green-100 text-green-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'UPDATE':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'DELETE':
-        return 'bg-red-100 text-red-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'READ':
         return 'bg-gray-100 text-gray-800';
       default:
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-neutral-100 text-neutral-800';
     }
   };
 
   const getStatusColor = (status: string) => {
-    return status === 'SUCCESS' ? 'text-green-600' : 'text-red-600';
+    return status === 'SUCCESS' ? 'text-neutral-600' : 'text-neutral-600';
   };
 
   return (
@@ -74,8 +74,8 @@ export default function AuditPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-6">
-            <p className="text-red-800">{error}</p>
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg mb-6">
+            <p className="text-neutral-800">{error}</p>
           </div>
         )}
 

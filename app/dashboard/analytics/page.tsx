@@ -222,11 +222,11 @@ function DonutChart({ data }: { data: { label: string; value: number; color: str
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 const LEAD_STATUS_COLORS: Record<string, string> = {
-  NEW: '#6366f1',
-  CONTACTED: '#3b82f6',
-  QUALIFIED: '#f59e0b',
-  CONVERTED: '#10b981',
-  LOST: '#ef4444',
+  NEW: '#a3a3a3',
+  CONTACTED: '#737373',
+  QUALIFIED: '#525252',
+  CONVERTED: '#171717',
+  LOST: '#525252',
 };
 
 export default function AnalyticsPage() {
@@ -266,22 +266,22 @@ export default function AnalyticsPage() {
     ? Math.round((data.leadStats.CONVERTED / totalLeads) * 100) : 0;
 
   const kpis = [
-    { label: 'Total Leads', value: totalLeads, sub: 'all statuses', trend: '+', color: 'text-indigo-600' },
-    { label: 'Contacted', value: data?.leadStats?.CONTACTED || 0, sub: 'leads reached', trend: '+', color: 'text-blue-600' },
-    { label: 'Conversion', value: `${conversionRate}%`, sub: 'leads converted', trend: '+', color: 'text-green-600' },
-    { label: 'Campaigns', value: data?.completedCampaigns || 0, sub: 'completed', trend: '+', color: 'text-amber-600' },
+    { label: 'Total Leads', value: totalLeads, sub: 'all statuses', trend: '+', color: 'text-neutral-600' },
+    { label: 'Contacted', value: data?.leadStats?.CONTACTED || 0, sub: 'leads reached', trend: '+', color: 'text-neutral-600' },
+    { label: 'Conversion', value: `${conversionRate}%`, sub: 'leads converted', trend: '+', color: 'text-neutral-600' },
+    { label: 'Campaigns', value: data?.completedCampaigns || 0, sub: 'completed', trend: '+', color: 'text-neutral-600' },
   ];
 
   const leadStatusBars = Object.entries(data?.leadStats || {}).map(([status, count]) => ({
     label: status,
     value: count as number,
-    color: LEAD_STATUS_COLORS[status] || '#94a3b8',
+    color: LEAD_STATUS_COLORS[status] || '#a3a3a3',
   }));
 
   const donutData = Object.entries(data?.leadStats || {}).map(([label, value]) => ({
     label,
     value: value as number,
-    color: LEAD_STATUS_COLORS[label] || '#94a3b8',
+    color: LEAD_STATUS_COLORS[label] || '#a3a3a3',
   }));
 
   return (
@@ -305,7 +305,7 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
-        {error && <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">{error}</div>}
+        {error && <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-800 text-sm">{error}</div>}
 
         {/* KPI Cards */}
         <div className="grid grid-cols-4 gap-4">
@@ -325,9 +325,9 @@ export default function AnalyticsPage() {
               <h2 className="font-semibold text-black">Leads Over Time</h2>
               <div className="flex gap-4 text-xs">
                 {[
-                  { label: 'New', color: '#6366f1' },
-                  { label: 'Contacted', color: '#3b82f6' },
-                  { label: 'Converted', color: '#10b981' },
+                  { label: 'New', color: '#a3a3a3' },
+                  { label: 'Contacted', color: '#737373' },
+                  { label: 'Converted', color: '#171717' },
                 ].map((l) => (
                   <span key={l.label} className="flex items-center gap-1">
                     <span className="inline-block w-3 h-1 rounded" style={{ backgroundColor: l.color }} />
@@ -339,7 +339,7 @@ export default function AnalyticsPage() {
             <LineChart
               data={data?.analytics || []}
               keys={['newLeads', 'contactedLeads', 'convertedLeads']}
-              colors={['#6366f1', '#3b82f6', '#10b981']}
+              colors={['#a3a3a3', '#737373', '#171717']}
               labels={['New', 'Contacted', 'Converted']}
               height={200}
             />
@@ -362,9 +362,9 @@ export default function AnalyticsPage() {
             <h2 className="font-semibold text-black mb-4">AI & Campaign Stats</h2>
             <div className="space-y-4">
               {[
-                { label: 'Messages Generated', value: data?.totalMessagesGenerated || 0, color: 'bg-indigo-500' },
-                { label: 'Completed Campaigns', value: data?.completedCampaigns || 0, color: 'bg-green-500' },
-                { label: 'AI Tokens Used', value: latestMetrics.tokensUsed || 0, color: 'bg-amber-500' },
+                { label: 'Messages Generated', value: data?.totalMessagesGenerated || 0, color: 'bg-neutral-500' },
+                { label: 'Completed Campaigns', value: data?.completedCampaigns || 0, color: 'bg-neutral-500' },
+                { label: 'AI Tokens Used', value: latestMetrics.tokensUsed || 0, color: 'bg-neutral-500' },
               ].map((s) => {
                 const maxRef = Math.max(data?.totalMessagesGenerated || 1, data?.completedCampaigns || 1);
                 const pct = Math.min((s.value / maxRef) * 100, 100);
@@ -386,7 +386,7 @@ export default function AnalyticsPage() {
                 <LineChart
                   data={data?.analytics || []}
                   keys={['messagesGenerated']}
-                  colors={['#f59e0b']}
+                  colors={['#525252']}
                   labels={['Messages']}
                   height={120}
                 />

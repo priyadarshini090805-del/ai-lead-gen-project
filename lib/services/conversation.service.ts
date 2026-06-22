@@ -109,7 +109,7 @@ export class ConversationService {
 
     if (!conversation) throw new Error('Conversation not found');
 
-    const message = await prisma.message.create({
+    const message = await prisma.conversationMessage.create({
       data: {
         conversationId,
         sender,
@@ -120,7 +120,10 @@ export class ConversationService {
 
     await prisma.conversation.update({
       where: { id: conversationId },
-      data: { lastMessageAt: new Date() },
+      data: {
+        lastMessageAt: new Date(),
+        ...(sender === 'lead' ? { unreadCount: { increment: 1 } } : {}),
+      },
     });
 
     return message;

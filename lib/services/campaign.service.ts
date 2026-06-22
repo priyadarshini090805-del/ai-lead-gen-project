@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { addOutreachJob } from '@/lib/queue';
+import { WorkflowRuntimeService } from '@/lib/services/workflow-runtime.service';
 
 /** Campaign service aligned to schema: status uses CampaignStatus (ACTIVE, not RUNNING),
  *  engagement lives on CampaignLead, there is no `messages` relation. */
@@ -46,9 +47,14 @@ export class CampaignService {
 
     // workflow is optional — fall back to the campaign's own workflow if set.
     const wfId = workflowId || campaign.workflowId || undefined;
+    let workflowSteps = 0;
     if (wfId) {
-      const workflow = await prisma.workflow.findUnique({ where: { id: wfId } });
+      const workflow = await prisma.workflow.findUnique({
+        where: { id: wfId },
+        include: { _count: { select: { steps: true } } },
+      });
       if (!workflow || workflow.userId !== userId) throw new Error('Workflow not found');
+      workflowSteps = workflow._count.steps;
     }
 
     if (campaign.leads.length === 0) throw new Error('Campaign has no leads to contact');
@@ -57,14 +63,25 @@ export class CampaignService {
       where: { id: campaignId },
       data: { status: 'ACTIVE', workflowId: wfId, launchedAt: new Date(), startedAt: new Date() },
     });
+
+    // If a workflow with steps is attached, drive each lead through the durable
+    // workflow engine (message/delay/condition/branch). Otherwise fall back to a
+    // single direct outreach per lead.
+    const useEngine = !!wfId && workflowSteps > 0;
     for (const lead of campaign.leads) {
-      await addOutreachJob({ campaignId, leadId: lead.leadId, workflowId: wfId });
+      if (useEngine) {
+        await WorkflowRuntimeService.startExecution(campaignId, lead.leadId, wfId!);
+      } else {
+        await addOutreachJob({ campaignId, leadId: lead.leadId, workflowId: wfId });
+      }
     }
     await prisma.campaignActivity.create({
       data: {
         campaignId,
         action: 'status_changed',
-        description: `Campaign launched — ${campaign.leads.length} lead(s) queued for outreach`,
+        description: useEngine
+          ? `Campaign launched — ${campaign.leads.length} lead(s) entered the workflow engine`
+          : `Campaign launched — ${campaign.leads.length} lead(s) queued for outreach`,
       },
     });
     return updated;

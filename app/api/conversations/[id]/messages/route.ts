@@ -46,7 +46,7 @@ export async function POST(
       return errorResponse('Conversation not found', 404);
     }
 
-    const message = await prisma.message.create({
+    const message = await prisma.conversationMessage.create({
       data: {
         conversationId: id,
         sender: body.sender,
@@ -55,7 +55,41 @@ export async function POST(
       },
     });
 
+    // Keep conversation ordering fresh; bump unread when the lead replies.
+    await prisma.conversation.update({
+      where: { id },
+      data: {
+        lastMessageAt: new Date(),
+        ...(body.sender === 'lead' ? { unreadCount: { increment: 1 } } : {}),
+      },
+    });
+
     return successResponse(message, 'Message sent');
+  } catch (error: any) {
+    return errorResponse(error.message, 500);
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const payload = await verifyAuth(request);
+    const { id } = await params;
+    const messageId = request.nextUrl.searchParams.get('messageId');
+
+    const conversation = await prisma.conversation.findFirst({
+      where: { id, userId: payload.id },
+    });
+    if (!conversation) return errorResponse('Conversation not found', 404);
+
+    if (messageId) {
+      await prisma.conversationMessage.deleteMany({ where: { id: messageId, conversationId: id } });
+      return successResponse({ deleted: messageId }, 'Message deleted');
+    }
+    await prisma.conversationMessage.deleteMany({ where: { conversationId: id } });
+    return successResponse({ cleared: true }, 'Conversation messages cleared');
   } catch (error: any) {
     return errorResponse(error.message, 500);
   }

@@ -7,16 +7,14 @@ export async function GET(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const funnel = await AnalyticsService.getLeadFunnel(auth.id);
 
-    return NextResponse.json(
-      successResponse('Lead funnel retrieved', funnel)
-    );
+    return successResponse('Lead funnel retrieved', funnel);
   } catch (error: any) {
     console.error('GET /api/analytics/funnel error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

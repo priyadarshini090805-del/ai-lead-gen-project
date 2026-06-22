@@ -10,17 +10,15 @@ export async function DELETE(
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const { id } = await params;
     const result = await IntegrationService.disconnectIntegration(id);
 
-    return NextResponse.json(
-      successResponse('Integration disconnected', result)
-    );
+    return successResponse('Integration disconnected', result);
   } catch (error: any) {
     console.error('DELETE /api/integrations/:id error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

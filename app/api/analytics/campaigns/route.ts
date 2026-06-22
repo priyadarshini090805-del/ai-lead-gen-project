@@ -7,16 +7,14 @@ export async function GET(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const metrics = await AnalyticsService.getCampaignMetrics(auth.id);
 
-    return NextResponse.json(
-      successResponse('Campaign metrics retrieved', metrics)
-    );
+    return successResponse('Campaign metrics retrieved', metrics);
   } catch (error: any) {
     console.error('GET /api/analytics/campaigns error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

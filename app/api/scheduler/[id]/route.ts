@@ -17,7 +17,7 @@ export async function PUT(
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const { id } = await params;
@@ -30,24 +30,16 @@ export async function PUT(
         id,
         new Date(data.scheduledFor)
       );
-      return NextResponse.json(
-        successResponse('Content rescheduled', result)
-      );
+      return successResponse('Content rescheduled', result);
     }
 
-    return NextResponse.json(
-      errorResponse('No reschedule data provided'),
-      { status: 400 }
-    );
+    return errorResponse('No reschedule data provided', 400);
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        errorResponse('Validation error', error.errors),
-        { status: 400 }
-      );
+      return errorResponse('Validation error', error.errors, 400);
     }
     console.error('PUT /api/scheduler/:id error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }
 
@@ -58,17 +50,15 @@ export async function DELETE(
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const { id } = await params;
     const result = await ContentService.cancelScheduled(auth.id, id);
 
-    return NextResponse.json(
-      successResponse('Scheduled content cancelled', result)
-    );
+    return successResponse('Scheduled content cancelled', result);
   } catch (error: any) {
     console.error('DELETE /api/scheduler/:id error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

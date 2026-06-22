@@ -8,8 +8,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const auth = await verifyAuth(request);
     const { id } = await params;
     await NotificationService.markRead(auth.id, id);
-    return NextResponse.json(successResponse('Notification marked read', {}));
+    return successResponse('Notification marked read', {});
   } catch (e: any) {
-    return NextResponse.json(errorResponse(e.message), { status: 401 });
+    return errorResponse(e.message, 401);
   }
 }

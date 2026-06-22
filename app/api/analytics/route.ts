@@ -8,10 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(
-        errorResponse('Unauthorized'),
-        { status: 401 }
-      );
+      return errorResponse('Unauthorized', 401);
     }
 
     const url = new URL(request.url);
@@ -53,13 +50,10 @@ export async function GET(request: NextRequest) {
         break;
     }
 
-    return NextResponse.json(successResponse('Analytics retrieved', result));
+    return successResponse('Analytics retrieved', result);
   } catch (error: any) {
     console.error('GET /api/analytics error:', error);
-    return NextResponse.json(
-      errorResponse(error.message),
-      { status: 500 }
-    );
+    return errorResponse(error.message, 500);
   }
 }
 

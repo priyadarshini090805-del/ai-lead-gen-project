@@ -11,9 +11,9 @@ export async function GET(request: NextRequest) {
       NotificationService.list(auth.id, { unreadOnly }),
       NotificationService.unreadCount(auth.id),
     ]);
-    return NextResponse.json(successResponse('Notifications', { items, unreadCount }));
+    return successResponse('Notifications', { items, unreadCount });
   } catch (e: any) {
-    return NextResponse.json(errorResponse(e.message), { status: 401 });
+    return errorResponse(e.message, 401);
   }
 }
 
@@ -21,8 +21,8 @@ export async function PUT(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     await NotificationService.markAllRead(auth.id);
-    return NextResponse.json(successResponse('All notifications marked read', {}));
+    return successResponse('All notifications marked read', {});
   } catch (e: any) {
-    return NextResponse.json(errorResponse(e.message), { status: 401 });
+    return errorResponse(e.message, 401);
   }
 }

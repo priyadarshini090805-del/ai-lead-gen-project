@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const body = await request.json();
@@ -23,20 +23,14 @@ export async function POST(request: NextRequest) {
 
     const token = request.headers.get('x-linkedin-token');
     if (!token) {
-      return NextResponse.json(
-        errorResponse('LinkedIn token required'),
-        { status: 400 }
-      );
+      return errorResponse('LinkedIn token required', 400);
     }
 
     let result;
 
     if (action === 'message') {
       if (!recipientId) {
-        return NextResponse.json(
-          errorResponse('recipientId required for message'),
-          { status: 400 }
-        );
+        return errorResponse('recipientId required for message', 400);
       }
       result = await LinkedInService.sendMessage(
         auth.id,
@@ -48,17 +42,12 @@ export async function POST(request: NextRequest) {
       result = await LinkedInService.publishPost(auth.id, token, content);
     }
 
-    return NextResponse.json(
-      successResponse('LinkedIn publish completed', { postId: result })
-    );
+    return successResponse('LinkedIn publish completed', { postId: result });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        errorResponse('Validation error', error.errors),
-        { status: 400 }
-      );
+      return errorResponse('Validation error', error.errors, 400);
     }
     console.error('LinkedIn publish error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

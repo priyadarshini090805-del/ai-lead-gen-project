@@ -16,18 +16,16 @@ export async function GET(
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const { id } = await params;
     const activities = await LeadService.getActivities(auth.id, id);
 
-    return NextResponse.json(
-      successResponse('Activities retrieved', { activities })
-    );
+    return successResponse('Activities retrieved', { activities });
   } catch (error: any) {
     console.error('GET /api/leads/:id/activities error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }
 
@@ -38,7 +36,7 @@ export async function POST(
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const { id } = await params;
@@ -53,12 +51,9 @@ export async function POST(
     );
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        errorResponse('Validation error', error.errors),
-        { status: 400 }
-      );
+      return errorResponse('Validation error', error.errors, 400);
     }
     console.error('POST /api/leads/:id/activities error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

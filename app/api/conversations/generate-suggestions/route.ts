@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const body = await request.json();
@@ -20,17 +20,12 @@ export async function POST(request: NextRequest) {
 
     const suggestions = await ConversationService.generateReplySuggestions(auth.id, conversationId);
 
-    return NextResponse.json(
-      successResponse('Reply suggestions generated', { suggestions })
-    );
+    return successResponse('Reply suggestions generated', { suggestions });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        errorResponse('Validation error', error.errors),
-        { status: 400 }
-      );
+      return errorResponse('Validation error', error.errors, 400);
     }
     console.error('POST /api/conversations/generate-suggestions error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

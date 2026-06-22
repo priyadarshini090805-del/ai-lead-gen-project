@@ -8,17 +8,15 @@ export async function GET(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const integrations = await IntegrationService.getIntegrations(auth.id);
 
-    return NextResponse.json(
-      successResponse('Integrations retrieved', { integrations })
-    );
+    return successResponse('Integrations retrieved', { integrations });
   } catch (error: any) {
     console.error('GET /api/integrations error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }
 
@@ -26,7 +24,7 @@ export async function POST(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const body = await request.json();
@@ -62,12 +60,9 @@ export async function POST(request: NextRequest) {
     );
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        errorResponse('Validation error', error.errors),
-        { status: 400 }
-      );
+      return errorResponse('Validation error', error.errors, 400);
     }
     console.error('POST /api/integrations error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

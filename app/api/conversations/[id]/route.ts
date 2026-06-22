@@ -10,15 +10,15 @@ export async function GET(
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const { id } = await params;
     const result = await ConversationService.getConversationMessages(auth.id, id);
 
-    return NextResponse.json(successResponse('Conversation retrieved', result));
+    return successResponse('Conversation retrieved', result);
   } catch (error: any) {
     console.error('GET /api/conversations/:id error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

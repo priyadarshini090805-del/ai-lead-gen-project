@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   try {
     const auth = await verifyAuth(request);
     if (!auth) {
-      return NextResponse.json(errorResponse('Unauthorized'), { status: 401 });
+      return errorResponse('Unauthorized', 401);
     }
 
     const url = new URL(request.url);
@@ -16,10 +16,7 @@ export async function GET(request: NextRequest) {
     const dateTo = url.searchParams.get('dateTo');
 
     if (!dateFrom || !dateTo) {
-      return NextResponse.json(
-        errorResponse('dateFrom and dateTo required'),
-        { status: 400 }
-      );
+      return errorResponse('dateFrom and dateTo required', 400);
     }
 
     const csv = await AnalyticsService.exportAnalytics(
@@ -37,11 +34,9 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    return NextResponse.json(
-      successResponse('Analytics exported', { data: csv })
-    );
+    return successResponse('Analytics exported', { data: csv });
   } catch (error: any) {
     console.error('GET /api/analytics/export error:', error);
-    return NextResponse.json(errorResponse(error.message), { status: 500 });
+    return errorResponse(error.message, 500);
   }
 }

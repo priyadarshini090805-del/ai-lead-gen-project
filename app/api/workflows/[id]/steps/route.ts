@@ -22,7 +22,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         workflowId: id,
         type: body.type,
         stepNumber: body.stepNumber,
-        content: body.content,
+        delayMinutes: body.delayMinutes ?? null,
+        messageTemplate: body.messageTemplate ?? null,
+        condition: body.condition ?? null,
       },
     });
 

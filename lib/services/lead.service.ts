@@ -143,6 +143,17 @@ export class LeadService {
     });
   }
 
+  static async getActivities(userId: string, leadId: string) {
+    const lead = await prisma.lead.findUnique({ where: { id: leadId } });
+    if (!lead || lead.userId !== userId) throw new Error('Lead not found');
+
+    return prisma.leadActivity.findMany({
+      where: { leadId },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+    });
+  }
+
   static async searchLeads(userId: string, query: string) {
     return prisma.lead.findMany({
       where: {

@@ -29,9 +29,11 @@ export class ContentManagementService {
     });
 
     if (updates.body) {
+      const count = await prisma.contentVersion.count({ where: { contentId } });
       await prisma.contentVersion.create({
         data: {
           contentId,
+          versionNumber: count + 1,
           body: updates.body,
           createdBy: updatedBy,
         },
@@ -94,7 +96,6 @@ export class ContentManagementService {
     return await prisma.contentVersion.findMany({
       where: { contentId },
       orderBy: { createdAt: 'desc' },
-      include: { creator: { select: { name: true, email: true } } },
     });
   }
 

@@ -14,7 +14,7 @@ export async function GET(
     }
 
     const { id } = await params;
-    const result = await ConversationService.getConversationMessages(auth.id, id);
+    const result = await ConversationService.getConversationHistory(auth.id, id);
 
     return successResponse('Conversation retrieved', result);
   } catch (error: any) {

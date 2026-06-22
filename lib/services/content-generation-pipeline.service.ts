@@ -206,6 +206,8 @@ export class ContentGenerationPipelineService {
         userId,
         title: topic.substring(0, 100),
         type: type as any,
+        body: content,
+        aiGenerated: true,
       },
     });
 

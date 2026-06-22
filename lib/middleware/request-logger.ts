@@ -10,7 +10,7 @@ export async function logRequest(
 ) {
   try {
     if (userId && path.includes('/api')) {
-      await prisma.aUditLog.create({
+      await prisma.auditLog.create({
         data: {
           userId,
           action: 'API_CALL' as any,

@@ -183,7 +183,7 @@ export class ConversationService {
 
     if (!conversation) throw new Error('Conversation not found');
 
-    await prisma.message.deleteMany({ where: { conversationId } });
+    await prisma.conversationMessage.deleteMany({ where: { conversationId } });
     await prisma.conversation.delete({ where: { id: conversationId } });
   }
 

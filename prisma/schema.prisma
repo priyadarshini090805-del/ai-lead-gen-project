@@ -606,6 +606,16 @@ model Content {
   body                  String          @db.Text
   aiGenerated           Boolean         @default(false)
 
+  // Lifecycle (draft -> approved -> published, or rejected)
+  status                String          @default("DRAFT")
+  approvedBy            String?
+  approvedAt            DateTime?
+  publishedAt           DateTime?
+  publishedOn           String?
+  rejectedBy            String?
+  rejectedAt            DateTime?
+  rejectionReason       String?
+
   versions              ContentVersion[]
   scheduledContents     ScheduledContent[]
 
@@ -614,6 +624,7 @@ model Content {
 
   @@index([userId])
   @@index([type])
+  @@index([status])
   @@index([createdAt])
 }
 
@@ -625,6 +636,7 @@ model ContentVersion {
   versionNumber         Int
   body                  String          @db.Text
   changeNotes           String?
+  createdBy             String?
 
   createdAt             DateTime        @default(now())
 
@@ -714,6 +726,7 @@ model Conversation {
   lead                  Lead            @relation(fields: [leadId], references: [id], onDelete: Cascade)
 
   subject               String?
+  platform              String          @default("email")
   unreadCount           Int             @default(0)
   lastMessageAt         DateTime        @default(now())
   messages              ConversationMessage[]
@@ -722,6 +735,7 @@ model Conversation {
   updatedAt             DateTime        @updatedAt
 
   @@index([userId])
+  @@index([platform])
   @@index([leadId])
   @@index([createdAt])
   @@index([lastMessageAt])

@@ -29,8 +29,8 @@ export class AuditService {
     return await prisma.auditLog.findMany({
       where: {
         userId,
-        ...(filters?.resource && { resource: filters.resource }),
-        ...(filters?.action && { action: filters.action }),
+        ...(filters?.resource && { entityType: filters.resource }),
+        ...(filters?.action && { action: filters.action as any }),
       },
       orderBy: { createdAt: 'desc' },
       take: 100,
@@ -41,8 +41,8 @@ export class AuditService {
     return await prisma.auditLog.findMany({
       where: {
         userId,
-        resource,
-        resourceId,
+        entityType: resource,
+        entityId: resourceId,
       },
       orderBy: { createdAt: 'desc' },
     });

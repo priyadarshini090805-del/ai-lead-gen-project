@@ -711,6 +711,8 @@ model Conversation {
   lead                  Lead            @relation(fields: [leadId], references: [id], onDelete: Cascade)
 
   subject               String?
+  unreadCount           Int             @default(0)
+  lastMessageAt         DateTime        @default(now())
   messages              ConversationMessage[]
 
   createdAt             DateTime        @default(now())
@@ -719,6 +721,7 @@ model Conversation {
   @@index([userId])
   @@index([leadId])
   @@index([createdAt])
+  @@index([lastMessageAt])
 }
 
 model ConversationMessage {

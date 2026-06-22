@@ -9,6 +9,7 @@ Postgres, no Docker. Uses a local SQLite file database.
 ## Easiest: one-click launcher
 - **Windows:** double-click **`START-WINDOWS.bat`**
 - **macOS:** double-click **`START-MAC.command`**
+- **Linux:** run **`bash START-LINUX.sh`**
 
 It installs everything on first run, sets up the database, starts the app, and
 opens your browser automatically. To stop, close the window. That's it.

@@ -1,6 +1,5 @@
 #!/bin/bash
-# Double-click this file on macOS to launch the local demo.
-cd "$(dirname "$0")"
+# Run on Linux:  bash START-LINUX.sh   (or  ./START-LINUX.sh  after chmod +x)cd "$(dirname "$0")"
 
 echo "============================================================"
 echo "  AI Lead Generation - Local Demo Launcher"

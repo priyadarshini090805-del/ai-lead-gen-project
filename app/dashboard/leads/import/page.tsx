@@ -67,12 +67,11 @@ export default function LeadImportPage() {
           }, {});
         });
 
-      const token = 'cookie';
       const response = await fetch('/api/leads/import', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ leads }),
       });

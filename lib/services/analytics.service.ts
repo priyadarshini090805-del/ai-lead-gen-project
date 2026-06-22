@@ -96,22 +96,64 @@ export class AnalyticsService {
     return csv;
   }
 
-  static async getAnalyticsRange(userId: string, dateFrom: Date, dateTo: Date) {
+  /**
+   * Compute today's metrics from current data and upsert the Analytics row
+   * for today (one snapshot per day). Called before reading analytics so the
+   * dashboard always reflects the latest state.
+   */
+  static async calculateDailyAnalytics(userId: string) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+
     const [leads, campaigns, generations] = await Promise.all([
-      prisma.lead.findMany({ where: { userId, createdAt: { gte: dateFrom, lte: dateTo } } }),
-      prisma.campaign.findMany({ where: { userId, createdAt: { gte: dateFrom, lte: dateTo } } }),
-      prisma.aIGeneration.findMany({
-        where: { userId, createdAt: { gte: dateFrom, lte: dateTo } },
-        select: { tokensUsed: true },
-      }),
+      prisma.lead.findMany({ where: { userId }, select: { status: true, createdAt: true } }),
+      prisma.campaign.findMany({ where: { userId }, select: { status: true } }),
+      prisma.aIGeneration.findMany({ where: { userId }, select: { tokensUsed: true } }),
     ]);
-    return {
-      period: { from: dateFrom, to: dateTo },
-      totalLeads: leads.length,
-      totalCampaigns: campaigns.length,
+
+    const totalLeads = leads.length;
+    const convertedLeads = leads.filter((l) => l.status === 'CONVERTED').length;
+    const data = {
+      totalLeads,
+      newLeads: leads.filter((l) => l.createdAt >= today).length,
+      contactedLeads: leads.filter((l) => l.status === 'CONTACTED').length,
+      qualifiedLeads: leads.filter((l) => l.status === 'QUALIFIED').length,
+      convertedLeads,
+      conversionRate: totalLeads > 0 ? round((convertedLeads / totalLeads) * 100) : 0,
+      campaignsRun: campaigns.filter((c) => c.status === 'ACTIVE' || c.status === 'COMPLETED').length,
       messagesGenerated: generations.length,
       tokensUsed: generations.reduce((s, g) => s + g.tokensUsed, 0),
-      convertedLeads: leads.filter((l) => l.status === 'CONVERTED').length,
     };
+
+    const existing = await prisma.analytics.findFirst({
+      where: { userId, date: { gte: today, lt: tomorrow } },
+    });
+    if (existing) {
+      await prisma.analytics.update({ where: { id: existing.id }, data });
+    } else {
+      await prisma.analytics.create({ data: { userId, date: today, ...data } });
+    }
+  }
+
+  /**
+   * Returns the shape the Analytics dashboard expects:
+   *   { analytics: DailyMetric[], leadStats, completedCampaigns, totalMessagesGenerated }
+   */
+  static async getAnalyticsRange(userId: string, dateFrom: Date, dateTo: Date) {
+    const [analytics, leads, completedCampaigns, totalMessagesGenerated] = await Promise.all([
+      prisma.analytics.findMany({
+        where: { userId, date: { gte: dateFrom, lte: dateTo } },
+        orderBy: { date: 'desc' },
+      }),
+      prisma.lead.findMany({ where: { userId }, select: { status: true } }),
+      prisma.campaign.count({ where: { userId, status: 'COMPLETED' } }),
+      prisma.aIGeneration.count({ where: { userId } }),
+    ]);
+
+    const leadStats: Record<string, number> = { NEW: 0, CONTACTED: 0, QUALIFIED: 0, CONVERTED: 0, LOST: 0 };
+    for (const l of leads) leadStats[l.status] = (leadStats[l.status] || 0) + 1;
+
+    return { analytics, leadStats, completedCampaigns, totalMessagesGenerated };
   }
 }

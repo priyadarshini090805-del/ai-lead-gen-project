@@ -3,6 +3,20 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import * as XLSX from 'xlsx';
+
+/** Parse a CSV or Excel (.xlsx/.xls) file into row objects keyed by header. */
+async function parseLeadFile(file: File): Promise<any[]> {
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf); // handles .csv, .xlsx and .xls
+  const sheet = wb.Sheets[wb.SheetNames[0]];
+  if (!sheet) return [];
+  return XLSX.utils.sheet_to_json(sheet, { defval: '', raw: false }).map((row: any) => {
+    const out: any = {};
+    for (const key of Object.keys(row)) out[String(key).trim()] = String(row[key] ?? '').trim();
+    return out;
+  });
+}
 
 interface ImportStats {
   total: number;
@@ -25,24 +39,20 @@ export default function LeadImportPage() {
     setFile(selectedFile);
     setError('');
 
-    if (selectedFile.type !== 'text/csv' && !selectedFile.name.endsWith('.csv')) {
-      setError('Please select a CSV file');
+    const name = selectedFile.name.toLowerCase();
+    if (!name.endsWith('.csv') && !name.endsWith('.xlsx') && !name.endsWith('.xls')) {
+      setError('Please select a CSV or Excel (.xlsx) file');
       setFile(null);
       return;
     }
 
-    const text = await selectedFile.text();
-    const lines = text.split('\n');
-    const headers = lines[0].split(',').map(h => h.trim());
-    const data = lines.slice(1, 6).filter(line => line.trim()).map(line => {
-      const values = line.split(',');
-      return headers.reduce((obj: any, header, idx) => {
-        obj[header] = values[idx]?.trim() || '';
-        return obj;
-      }, {});
-    });
-
-    setPreview(data);
+    try {
+      const rows = await parseLeadFile(selectedFile);
+      setPreview(rows.slice(0, 5));
+    } catch {
+      setError('Could not read the file. Make sure it is a valid CSV or Excel file.');
+      setFile(null);
+    }
   };
 
   const handleImport = async () => {
@@ -53,19 +63,10 @@ export default function LeadImportPage() {
 
     try {
       setLoading(true);
-      const text = await file.text();
-      const lines = text.split('\n');
-      const headers = lines[0].split(',').map(h => h.trim());
-
-      const leads = lines.slice(1)
-        .filter(line => line.trim())
-        .map(line => {
-          const values = line.split(',');
-          return headers.reduce((obj: any, header, idx) => {
-            obj[header] = values[idx]?.trim() || '';
-            return obj;
-          }, {});
-        });
+      const leads = await parseLeadFile(file);
+      if (leads.length === 0) {
+        throw new Error('No rows found in the file');
+      }
 
       const response = await fetch('/api/leads/import', {
         method: 'POST',
@@ -131,16 +132,16 @@ export default function LeadImportPage() {
         ) : (
           <>
             <div className="bg-neutral-50 p-6 rounded-lg mb-8 border border-neutral-200">
-              <h3 className="font-semibold text-neutral-900 mb-2">CSV Format Required</h3>
+              <h3 className="font-semibold text-neutral-900 mb-2">CSV or Excel (.xlsx) Format</h3>
               <p className="text-sm text-neutral-800">
-                Your CSV should have columns: firstName, lastName, email, company (optional), phone (optional), title (optional), location (optional)
+                Columns: firstName, lastName, email, company (optional), phone (optional), title (optional), location (optional). Email is required.
               </p>
             </div>
 
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-8">
               <input
                 type="file"
-                accept=".csv"
+                accept=".csv,.xlsx,.xls"
                 onChange={handleFileSelect}
                 className="hidden"
                 id="file-input"

@@ -73,7 +73,7 @@ export const CampaignLeadStatus = asEnum({
 export type CampaignLeadStatus = (typeof CampaignLeadStatus)[keyof typeof CampaignLeadStatus];
 
 export const WorkflowExecutionStatus = asEnum({
-  RUNNING: 'RUNNING', COMPLETED: 'COMPLETED', FAILED: 'FAILED', CANCELLED: 'CANCELLED',
+  RUNNING: 'RUNNING', PAUSED: 'PAUSED', COMPLETED: 'COMPLETED', FAILED: 'FAILED', CANCELLED: 'CANCELLED',
 });
 export type WorkflowExecutionStatus = (typeof WorkflowExecutionStatus)[keyof typeof WorkflowExecutionStatus];
 

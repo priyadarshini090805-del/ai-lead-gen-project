@@ -39,22 +39,10 @@ export async function POST(request: NextRequest) {
       return errorResponse('Workflow not found', 404);
     }
 
-    const execution = await prisma.workflowExecution.create({
-      data: {
-        campaignId,
-        leadId,
-        workflowId,
-        status: 'RUNNING',
-      },
-    });
-
-    await queue.outreachQueue.add('workflow-execute', {
-      executionId: execution.id,
-      campaignId,
-      leadId,
-      workflowId,
-      userId: payload.id,
-    });
+    // Start a durable execution; the cron-driven engine advances it step by
+    // step (message/delay/condition/branch) and survives restarts.
+    const executionId = await WorkflowRuntimeService.startExecution(campaignId, leadId, workflowId);
+    const execution = await prisma.workflowExecution.findUnique({ where: { id: executionId } });
 
     return successResponse({ execution });
   } catch (error: any) {

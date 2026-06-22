@@ -4,6 +4,7 @@ import { LinkedInService } from '@/lib/services/linkedin.service';
 import { InstagramService } from '@/lib/services/instagram.service';
 import { NotificationService } from '@/lib/services/notification.service';
 import { processOutreachQueue } from '@/lib/jobs/outreach-worker';
+import { WorkflowRuntimeService } from '@/lib/services/workflow-runtime.service';
 
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
@@ -94,8 +95,12 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Also drain the outreach/follow-up queue on the same cron tick so we stay
-  // within the Hobby plan's cron-job limit.
+  // Advance durable workflow executions, then drain the outreach/follow-up
+  // queue — all on the same cron tick to stay within the Hobby cron-job limit.
+  const workflow = await WorkflowRuntimeService.tick().catch((e) => {
+    console.error('Workflow engine error:', e);
+    return [];
+  });
   const outreach = await processOutreachQueue().catch((e) => {
     console.error('Outreach worker error:', e);
     return [];
@@ -104,6 +109,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     processed: results.length,
     results,
+    workflow: { processed: workflow.length, results: workflow },
     outreach: { processed: outreach.length, results: outreach },
     at: now.toISOString(),
   });

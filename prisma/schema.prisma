@@ -461,6 +461,7 @@ model Campaign {
 
 enum WorkflowExecutionStatus {
   RUNNING
+  PAUSED
   COMPLETED
   FAILED
   CANCELLED
@@ -474,6 +475,7 @@ model WorkflowExecution {
 
   status                WorkflowExecutionStatus @default(RUNNING)
   currentStep           Int                     @default(0)
+  nextRunAt             DateTime?               // when the next step should run (durable delays)
   startedAt             DateTime                @default(now())
   completedAt           DateTime?
   error                 String?                 @db.Text
@@ -485,6 +487,7 @@ model WorkflowExecution {
   @@index([campaignId])
   @@index([leadId])
   @@index([status])
+  @@index([nextRunAt])
 }
 
 model CampaignLead {

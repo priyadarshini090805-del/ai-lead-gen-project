@@ -90,6 +90,7 @@ async function captureLead(userId: string, data: { handle: string; note: string;
         description: `Instagram ${data.kind}: ${data.note.slice(0, 500)}`,
       },
     }).catch(() => null);
+    await recordInbound(userId, existing.id, 'instagram', data.note);
     return;
   }
   const lead = await prisma.lead.create({
@@ -105,6 +106,7 @@ async function captureLead(userId: string, data: { handle: string; note: string;
       notes: `Instagram ${data.kind}: ${data.note.slice(0, 900)}`,
     },
   });
+  await recordInbound(userId, lead.id, 'instagram', data.note);
   await NotificationService.create(userId, {
     type: 'NEW_LEAD',
     title: `New Instagram lead: @${data.handle}`,
@@ -112,4 +114,24 @@ async function captureLead(userId: string, data: { handle: string; note: string;
     link: '/dashboard/leads',
     metadata: { leadId: lead.id, source: 'INSTAGRAM' },
   });
+}
+
+/** Record an inbound social message as a conversation thread so it shows up
+ * in the web Conversations page. */
+async function recordInbound(userId: string, leadId: string, platform: string, text: string) {
+  try {
+    let convo = await prisma.conversation.findFirst({ where: { userId, leadId, platform } });
+    if (!convo) {
+      convo = await prisma.conversation.create({ data: { userId, leadId, platform, lastMessageAt: new Date() } });
+    }
+    await prisma.conversationMessage.create({
+      data: { conversationId: convo.id, sender: 'lead', content: text.slice(0, 2000) },
+    });
+    await prisma.conversation.update({
+      where: { id: convo.id },
+      data: { lastMessageAt: new Date(), unreadCount: { increment: 1 } },
+    });
+  } catch (e) {
+    console.error('recordInbound (instagram) failed:', e);
+  }
 }
